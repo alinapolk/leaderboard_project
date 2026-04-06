@@ -1,13 +1,32 @@
-# Python-generated files
+# Python
 __pycache__/
-*.py[oc]
-build/
-wheels/
-*.egg-info
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
 
-# Project files
-.venv
-.idea/
-.DS_Store
-.env
+# Django
+*.log
+db.sqlite3
+*.sqlite3
+/media/
+/staticfiles/
+
+# IDE
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
