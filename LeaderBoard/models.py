@@ -19,7 +19,7 @@ class Students(models.Model):
     history_work_week = models.DecimalField(max_digits=6, decimal_places=2, default=0) # Часы за неделю для быстрого
     # рейтинга
     history_work_all = models.DecimalField(max_digits=10, decimal_places=2, default=0) # Всего часов за всё время
-    history_work_mounth = models.DecimalField(max_digits=8, decimal_places=2, default=0) # Часы за месяц для быстрого
+    history_work_month = models.DecimalField(max_digits=8, decimal_places=2, default=0) # Часы за месяц для быстрого
     # рейтинга
     top_view = models.CharField(max_length=100, blank=True, null=True) # Для категоризации студентов (лидер, активный,
     # новичок и т.д.)
