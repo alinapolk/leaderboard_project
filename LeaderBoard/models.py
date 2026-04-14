@@ -1,8 +1,8 @@
 from django.db import models
 
 
-# 1. Таблица студентов
 class Students(models.Model):
+    """Таблица студентов"""
     login = models.CharField(primary_key=True, max_length=50)
     someone_id = models.CharField(max_length=50, unique=True) # ID из API вуза для интеграции
     first_name = models.CharField(max_length=100)
@@ -29,8 +29,8 @@ class Students(models.Model):
         db_table = 'students'
 
 
-# 2. Таблица проектов
 class Projects(models.Model):
+    """Таблица проектов"""
     id_project = models.AutoField(primary_key=True)
     project_name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -40,8 +40,8 @@ class Projects(models.Model):
         db_table = 'projects'
 
 
-# 3. Таблица команд
 class Teams(models.Model):
+    """Таблица команд"""
     team_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(                    # Связь с проектом
         Projects,
@@ -56,8 +56,9 @@ class Teams(models.Model):
         db_table = 'teams'
 
 
-# 4. Связующая таблица Students in Teams (многие-ко-многим)
+
 class Student_Teams(models.Model):
+    """Связующая таблица Students in Teams (многие-ко-многим)"""
     ROLE_CHOICES = [
         ('Студент', 'Студент'),
         ('Наставник', 'Наставник'),
@@ -85,8 +86,8 @@ class Student_Teams(models.Model):
         ]
 
 
-# 5. Таблица активности студентов в командах
 class Student_Activity(models.Model):
+    """Таблица активности студентов в командах"""
     activity_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(
         Students,
@@ -115,8 +116,8 @@ class Student_Activity(models.Model):
         ]
 
 
-# 6. Таблица медалей студентов
 class Student_Medals(models.Model):
+    """Таблица медалей студентов"""
     medal_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(
         Students,
