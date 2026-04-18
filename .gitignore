@@ -29,4 +29,8 @@ Thumbs.db
 
 # Environment variables
 .env
+<<<<<<< HEAD
 .env.local
+=======
+.env.local
+>>>>>>> DevB2
