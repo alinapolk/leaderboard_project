@@ -1,0 +1,193 @@
+{
+  "document" : {
+    "title": "Запрос на предоставление данных из витрины проектов ИШИТР+",
+    "department": "ИШИТР ТПУ"
+  },
+  "project": {
+    "name": "Leaderboard — рейтинг проектной деятельности ИШИТР+",
+    "description": "Сайт для отображения рейтинга студентов на основе их проектной активности. Система собирает данные о проектах, командах и часах работы для формирования рейтинга.",
+    "goal": "Получить данные о проектах, командах, участниках и их активности"
+  },
+  "requested_data" : {
+    "source" : "База данных витрины проектов",
+    "filter": "Все проекты ИШИТР+",
+    "tables" : {
+      "projects" : {
+        "description" : "Список проектов",
+        "fields" : [
+          {
+            "name": "id_project",
+            "type": "integer",
+            "required": true,
+            "description": "Уникальный идентификатор проекта"
+          },
+          {
+            "name": "project_name",
+            "type": "string",
+            "required": true,
+            "description": "Название проекта"
+          },
+          {
+            "name": "description",
+            "type": "text",
+            "required": false,
+            "description": "Описание проекта"
+          }
+        ]
+      },
+      "teams" : {
+        "description" : "Список команд",
+        "fields" : [
+          {
+            "name": "team_id",
+            "type": "integer",
+            "required": true,
+            "description": "Уникальный идентификатор команды"
+          },
+          {
+            "name": "project_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID проекта, к которому привязана команда"
+          },
+          {
+            "name": "expert_score",
+            "type": "string",
+            "required": false,
+            "description": "Оценка команды экспертами"
+          },
+          {
+            "name": "period_start",
+            "type": "date",
+            "required": false,
+            "description": "Дата начала работы команды"
+          },
+          {
+            "name": "period_end",
+            "type": "date",
+            "required": false,
+            "description": "Дата окончания работы команды"
+          }
+        ]
+      },
+      "team_members" : {
+        "description" : "Состав команды - какие студенты в каких командах",
+        "fields" : [
+          {
+            "name": "team_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID команды"
+          },
+          {
+            "name": "student_id",
+            "type": "string",
+            "required": true,
+            "description": "ID студента. Должен совпадать с someone_id из базы ТПУ"
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "required": true,
+            "description": "Роль в команде: Студент или Наставник"
+          },
+          {
+            "name": "joined_date",
+            "type": "datetime",
+            "required": false,
+            "description": "Дата вступления в команду"
+          }
+        ]
+      },
+      "activity" : {
+        "description" : "Еженедельная активность студента - часы работы",
+        "fields" : [
+          {
+            "name": "student_id",
+            "type": "string",
+            "required": true,
+            "description": "ID студента (someone_id из ТПУ)"
+          },
+          {
+            "name": "team_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID команды"
+          },
+          {
+            "name": "hours",
+            "type": "float",
+            "required": true,
+            "description": "Количество часов за неделю. ГЛАВНЫЙ КРИТЕРИЙ РЕЙТИНГА"
+          },
+          {
+            "name": "week_start",
+            "type": "date",
+            "required": true,
+            "description": "Дата начала недели (понедельник). Нужна для фильтрации по периоду: месяц/семестр/год"
+          }
+        ]
+      },
+      "total_hours": {
+        "description": "Суммарные часы работы студента за разные периоды (ОБСУДИТЬ)",
+        "fields": [
+          {
+            "name": "student_id",
+            "type": "string",
+            "required": true,
+            "description": "ID студента (someone_id из ТПУ)"
+          },
+          {
+            "name": "history_work_all",
+            "type": "float",
+            "required": false,
+            "description": "Всего часов за всё время"
+          },
+          {
+            "name": "history_work_sem",
+            "type": "float",
+            "required": false,
+            "description": "Часы за текущий семестр"
+          },
+          {
+            "name": "history_work_month",
+            "type": "float",
+            "required": false,
+            "description": "Часы за последний месяц"
+          },
+          {
+            "name": "history_work_week",
+            "type": "float",
+            "required": false,
+            "description": "Часы за последнюю неделю"
+          }
+        ]
+      }
+    }
+  },
+  "fields_not_requested" : {
+    "info_akadem": "Запрашиваем у ТПУ",
+    "student_medals": "Заполняем сами(узнать)",
+    "top_view": "Вычисляем сами по рейтингу",
+    "login": "Генерируем сами"
+  },
+  "data_usage" : {
+    "purpose": "Формирование рейтинга проектной активности студентов",
+    "storage": "База данных на сервере ТПУ",
+    "access": "Только авторизованные пользователи ТПУ",
+    "public_display": "Названия проектов, команды, рейтинговые баллы",
+    "update_frequency": "Раз в неделю (обсудить)"
+  },
+  "security": {
+    "transfer": "Данные передаются по HTTPS",
+    "storage": "База данных защищена стандартными средствами ТПУ",
+    "access_control": "API Key в заголовке Authorization",
+    "no_third_party": "Данные не передаются третьим лицам"
+  },
+  "technical": {
+    "format": "JSON REST API",
+    "auth_method": "API Key и использование Oauth",
+    "preferred_url": "/api/v1/export или аналогичный",
+    "response_format": "Массив объектов с полями, указанными в запросе"
+  }
+}

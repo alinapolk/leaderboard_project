@@ -1,0 +1,131 @@
+{
+  "document": {
+    "title": "Запрос на предоставление данных о студентах ИШИТР из базы ТПУ",
+    "department": "ИШИТР ТПУ"
+  },
+  "project": {
+    "name": "Leaderboard — рейтинг проектной деятельности ИШИТР+",
+    "description": "Сайт для отображения рейтинга студентов ИШИТР на основе их проектной активности. Система собирает часы работы студентов над проектами и формирует рейтинг.",
+    "goal": "Получить актуальные данные о студентах для привязки проектной активности к конкретным людям"
+  },
+  "requested_data": {
+    "source": "База данных студентов ТПУ",
+    "fields": [
+      {
+        "name": "someone_id",
+        "type": "string",
+        "required": true,
+        "description": "Уникальный идентификатор студента в системе ТПУ. КРИТИЧНО: нужен для связи с ID студента в витрине проектов. Без него невозможно сопоставить студента с его проектами."
+      },
+      {
+        "name": "first_name",
+        "type": "string",
+        "required": true,
+        "description": "Имя студента"
+      },
+      {
+        "name": "last_name",
+        "type": "string",
+        "required": true,
+        "description": "Фамилия студента"
+      },
+      {
+        "name": "patronymic",
+        "type": "string",
+        "required": false,
+        "description": "Отчество студента (если есть). Для корректного отображения ФИО в официальных рейтингах."
+      },
+      {
+        "name": "student_group",
+        "type": "string",
+        "required": true,
+        "description": "Учебная группа"
+      },
+      {
+        "name": "direction_name",
+        "type": "string",
+        "required": true,
+        "description": "Направление подготовки(для фильтрации по группам)"
+      },
+      {
+        "name": "study_year",
+        "type": "integer",
+        "required": true,
+        "description": "Курс обучения"
+      },
+      {
+        "name": "faculty",
+        "type": "string",
+        "required": true,
+        "description": "Факультет"
+      },
+      {
+        "name": "study_score",
+        "type": "float",
+        "required": true,
+        "description": "Средний балл успеваемости"
+      },
+      {
+        "name": "info_akadem",
+        "type": "text",
+        "required": false,
+        "description": "Информация об академических отпусках и переводах студента(для фильтрации)"
+      },
+      {
+        "name": "debt_count",
+        "type": "integer",
+        "required": true,
+        "description": "Количество академических задолженностей(чтобы не учитывать в рейтинге)"
+      },
+      {
+        "name": "history_work_all",
+        "type": "float",
+        "required": false,
+        "description": "Всего часов проектной работы за всё время обучения(обсудить)"
+      },
+      {
+        "name": "history_work_sem",
+        "type": "float",
+        "required": false,
+        "description": "Часы проектной работы за текущий семестр(обсудить)"
+      },
+      {
+        "name": "history_work_month",
+        "type": "float",
+        "required": false,
+        "description": "Часы проектной работы за последний месяц(обсудить)"
+      },
+      {
+        "name": "history_work_week",
+        "type": "float",
+        "required": false,
+        "description": "Часы проектной работы за последнюю неделю(обсудить)"
+      }
+    ]
+  },
+  "fields_not_requested": {
+    "login": "Генерируем сами",
+    "top_view": "Вычисляем сами по рейтингу",
+    "email": "Конфиденциальные данные, не запрашиваем",
+    "phone": "Конфиденциальные данные, не запрашиваем"
+  },
+  "data_usage": {
+    "purpose": "Формирование рейтинга проектной активности студентов ИШИТР",
+    "storage": "База данных на сервере ТПУ",
+    "access": "Только авторизованные пользователи ТПУ",
+    "public_display": "На сайте отображаются: ФИО, группа, рейтинговый балл, статус. Данные об успеваемости и долгах НЕ публикуются — только для расчёта рейтинга.",
+    "update_frequency": "Раз в семестр(для куратора) или раз в 2 недели(обсудить)"
+  },
+  "security": {
+    "transfer": "Данные передаются по HTTPS",
+    "storage": "База данных защищена стандартными средствами ТПУ",
+    "access_control": "API Key в заголовке Authorization",
+    "no_third_party": "Данные не передаются третьим лицам"
+  },
+  "technical": {
+    "format": "JSON REST API",
+    "auth_method": "API Key и использование Oauth",
+    "preferred_url": "/api/v1/students или аналогичный",
+    "response_format": "Массив объектов с полями, указанными в запросе"
+  }
+}
