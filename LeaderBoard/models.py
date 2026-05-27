@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Students(models.Model):
     """Таблица студентов"""
@@ -23,6 +23,8 @@ class Students(models.Model):
     # рейтинга
     top_view = models.CharField(max_length=100, blank=True, null=True) # Для категоризации студентов (лидер, активный,
     # новичок и т.д.)
+
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
 
 
     class Meta:
@@ -136,3 +138,18 @@ class Student_Medals(models.Model):
                 name='grade_gte_1'
             )
         ]
+
+
+class UserConsent(models.Model):
+    """Согласие на обработку персональных данных"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    ip_address = models.GenericIPAddressField()
+    consent_date = models.DateField(auto_now_add=True)
+    is_given = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'user_consent'
+
+    def __str__(self):
+        status_text = "дано" if self.is_given else "не дано"
+        return f"{self.user.username} - согласие {status_text}"

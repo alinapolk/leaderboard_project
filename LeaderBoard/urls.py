@@ -1,5 +1,8 @@
 from django.urls import path
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from . import views
+from .views_auth import LoginView, ConsentView, LogoutView, MeView, RefreshTokenView
 
 app_name = 'LeaderBoard'
 
@@ -25,4 +28,11 @@ urlpatterns = [
     # ЭНДПОИНТЫ ДЛЯ РЕЙТИНГА
     path('api/leaderboard/students/', views.StudentLeaderBoardListView.as_view(), name='leaderboard_students'),
     path('api/leaderboard/projects/', views.ProjectLeaderBoardListView.as_view(), name='leaderboard_projects'),
+
+    # АВТОРИЗАЦИЯ
+    path('api/auth/login/', LoginView.as_view(), name='auth_login'),
+    path('api/auth/consent/', ConsentView.as_view(), name='auth_consent'),
+    path('api/auth/me/', MeView.as_view(), name='auth_me'),
+    path('api/auth/logout/', LogoutView.as_view(), name='auth_logout'),
+    path('api/auth/refresh/', RefreshTokenView.as_view(), name='auth_refresh'),
 ]

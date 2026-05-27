@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Students, Student_Medals, Student_Teams, Student_Activity, Teams, Projects
+from .models import Students, Student_Medals, Student_Teams, Student_Activity, Teams, Projects, UserConsent
+
 
 class StudentsSerializer(serializers.ModelSerializer):
     """Полный сериализатор для Students"""
@@ -38,7 +40,7 @@ class StudentsSerializer(serializers.ModelSerializer):
             parts.append(obj.patronymic)
         return ' '.join(parts)
 
-class StudentShotsSerializer(serializers.ModelSerializer):
+class StudentShortSerializer(serializers.ModelSerializer):
     """
     Короткий сериализатор для Students
     Краткая информация по студентам
@@ -146,7 +148,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         members_data = []
         for st in obj.student_teams_set.select_related('student').all():
             members_data.append({
-                'student' : StudentShotsSerializer(st.student).data,
+                'student' : StudentShortSerializer(st.student).data,
                 'role' : st.rol,
                 'joined_date' : st.joined_date,
             })
@@ -155,7 +157,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
 class StudentTeamSerializer(serializers.ModelSerializer):
     """Сериализатор для промежуточной таблицы Student_Teams"""
 
-    student = StudentShotsSerializer(read_only=True)
+    student = StudentShortSerializer(read_only=True)
     team_name = serializers.CharField( # название команды = название проекта
         source='team.project.project_name',
         read_only=True
@@ -302,3 +304,70 @@ class ProjectLeaderBoardSerializer(serializers.ModelSerializer):
 
         team = obj.teams_set.first()
         return team.team_id if team else None
+
+
+class LoginSerializer(serializers.Serializer):
+    """Принимаем логин и пароль"""
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+
+class ConsentSerializer(serializers.Serializer):
+    """Принимаем решение по согласию"""
+    consent = serializers.BooleanField()
+    temp_token = serializers.CharField()
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    """Отдатет информацию о пользователе"""
+    full_name = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'full_name',
+            'role'
+        ]
+
+    def get_full_name(self, obj):
+        parts = [obj.first_name, obj.last_name]
+        return ' '.join(filter(None, parts)) or obj.username
+
+    def get_role(self, obj):
+        if obj.is_superuser:
+            return 'admin'
+        if obj.groups.filter(name='manager').exists():
+            return 'manager'
+        return 'student'
+
+
+class MeSerializer(serializers.Serializer):
+    """Полная информация о текущем пользователе"""
+
+    def to_representation(self, instance):
+        # Данные пользователя
+        user_data = UserInfoSerializer(instance).data
+
+        # Данные студента
+        try:
+            student = Students.objects.get(user=instance)
+            student_data = StudentShortSerializer(student).data
+        except Students.DoesNotExist:
+            student_data = None
+
+        # Статус согласия
+        try:
+            consent_given = instance.userconsent.is_given
+        except:
+            consent_given = False
+
+        return {
+            'user': user_data,
+            'student': student_data,
+            'consent_given': consent_given
+        }
