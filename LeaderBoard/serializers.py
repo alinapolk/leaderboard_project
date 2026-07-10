@@ -252,12 +252,10 @@ class StudentLeaderBoardSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj):
         """Формируем ФИО студента"""
-        s = obj.student
-        parts = [s.last_name, s.first_name]
+        parts = [obj.last_name, obj.first_name]
         if obj.patronymic:
             parts.append(obj.patronymic)
         return ' '.join(parts)
-
     def get_total_medals(self, obj):
         """Считаем количество медалей"""
         return obj.student_medals_set.count()
