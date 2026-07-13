@@ -1,3 +1,5 @@
+from re import search
+from django.db.models import Q
 from rest_framework import generics
 from .models import Students, Projects, Teams, Student_Teams, Student_Activity, Student_Medals
 from .serializers import (StudentsSerializer, ProjectsSerializer, TeamsSerializer, TeamDetailSerializer,
@@ -67,11 +69,32 @@ class ActivityListView(generics.ListAPIView):
     serializer_class = StudentActivitySerializer
 
 class StudentLeaderBoardListView(generics.ListAPIView):
-    """Топ-10 студентов по часам"""
-    queryset = Students.objects.filter(
-        history_work_all__gt=0
-    ).order_by('-history_work_all')[:10]
+    """
+    Топ-10 студентов по часам
+
+    Отдаёт топ-50 студентов ИШИТР, отсортированных по рейтингу.
+
+    Параметры:
+    ?search=иванов — поиск по ФИО
+
+    """
     serializer_class = StudentLeaderBoardSerializer
+    
+    def get_queryset(self):
+        # студенты, у которых есть часы
+        queryset = Students.objects.filter(history_work_all__gt=0)
+        # поиск по фио
+        search = self.request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(patronymic__icontains=search)
+            )
+        # сортировка
+        queryset = queryset.order_by('-study_score','-history_work_all')
+
+        return queryset[:50]
 
 class ProjectLeaderBoardListView(generics.ListAPIView):
     """Рейтинг всех проектов"""
