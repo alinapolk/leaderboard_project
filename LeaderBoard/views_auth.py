@@ -2,10 +2,17 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth.models import User, Group
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+
+from django.contrib.auth.models import User, Group
+
 from .models import UserConsent, Students
-from .serializers import LoginSerializer, UserInfoSerializer, ConsentSerializer, MeSerializer
+from .serializers import (LoginSerializer,
+                          UserInfoSerializer,
+                          ConsentSerializer,
+                          MeSerializer,
+                          StudentLeaderBoardSerializer
+                          )
 
 
 def get_tokens_for_user(user):
@@ -186,3 +193,68 @@ class RefreshTokenView(APIView):
             return Response({
                 'error': 'Недействительный refresh token'
             }, status=status.HTTP_401_UNAUTHORIZED)
+
+class MyRatingView(APIView):
+    """
+    GET /api/auth/me/rating/
+
+    Возращает личный рейтинг текущего авторизованного студента
+
+    Что отдаёт:
+    - position: место в общем рейтинге
+    - total_students: сколько всего студентов в рейтинге
+    - rating_score: свой рейтинговый балл
+    - student: полные данные студента
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        # Находим студента, связанного с пользователем
+        try:
+            student = Students.objects.get(user=user)
+        except Students.DoesNotExist:
+            return Response(
+                {'error' : 'Студент не найден'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Берём всех студентов для расчёта места
+        all_students = list(Students.objects.filter(
+            history_work_all__gt=0
+        ))
+
+        # Если рейтинг пуст — возвращаем ошибку
+        if not all_students:
+            return Response(
+                {'error': 'Нет данных для расчёта рейтинга'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Функция расчёта рейтинга
+        def calculate_rating_score(student):
+            study = float(student.study_score or 0)
+            hours = float(student.history_work_all or 0)
+            return round((study + hours / 288) / 2, 6)
+
+        # Мой рейтинг
+        my_rating = calculate_rating_score(student)
+
+        # Сортируем всех по рейтингу
+        ratings = [(s, calculate_rating_score(s)) for s in all_students]
+        ratings.sort(key=lambda x: x[1], reverse=True)
+
+        # Находим позицию (место) студента
+        position = next(
+            (i + 1 for i, (s, r) in enumerate(ratings) if s.login == student.login),
+            None
+        )
+
+        return Response({
+            'position': position,
+            'total_students': len(all_students),
+            'rating_score': my_rating,
+            'student': StudentLeaderBoardSerializer(student).data
+        })
