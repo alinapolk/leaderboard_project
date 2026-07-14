@@ -1,4 +1,5 @@
 from re import search
+from urllib.parse import unquote
 from django.db.models import Q
 from rest_framework import generics
 from .models import Students, Projects, Teams, Student_Teams, Student_Activity, Student_Medals
@@ -79,13 +80,14 @@ class StudentLeaderBoardListView(generics.ListAPIView):
 
     """
     serializer_class = StudentLeaderBoardSerializer
-    
+
     def get_queryset(self):
         # студенты, у которых есть часы
         queryset = Students.objects.filter(history_work_all__gt=0)
         # поиск по фио
         search = self.request.query_params.get('search')
         if search:
+            search = unquote(search)
             queryset = queryset.filter(
                 Q(first_name__icontains=search) |
                 Q(last_name__icontains=search) |
