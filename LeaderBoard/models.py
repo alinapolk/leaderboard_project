@@ -23,6 +23,7 @@ class Students(models.Model):
     # рейтинга
     top_view = models.CharField(max_length=100, blank=True, null=True) # Для категоризации студентов (лидер, активный,
     # новичок и т.д.)
+    rating_score = models.DecimalField(max_digits=8, decimal_places=2, default=0, db_index=True) # Рейтинг студентов
 
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
 

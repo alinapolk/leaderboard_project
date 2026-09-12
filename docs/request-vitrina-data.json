@@ -1,5 +1,5 @@
 {
-  "document" : {
+  "document": {
     "title": "Запрос на предоставление данных из витрины проектов ИШИТР+",
     "department": "ИШИТР ТПУ"
   },
@@ -8,13 +8,13 @@
     "description": "Сайт для отображения рейтинга студентов на основе их проектной активности. Система собирает данные о проектах, командах и часах работы для формирования рейтинга.",
     "goal": "Получить данные о проектах, командах, участниках и их активности"
   },
-  "requested_data" : {
-    "source" : "База данных витрины проектов",
+  "requested_data": {
+    "source": "База данных витрины проектов",
     "filter": "Все проекты ИШИТР+",
-    "tables" : {
-      "projects" : {
-        "description" : "Список проектов",
-        "fields" : [
+    "tables": {
+      "projects": {
+        "description": "Список проектов",
+        "fields": [
           {
             "name": "id_project",
             "type": "integer",
@@ -35,9 +35,9 @@
           }
         ]
       },
-      "teams" : {
+      "teams": {
         "description" : "Список команд",
-        "fields" : [
+        "fields": [
           {
             "name": "team_id",
             "type": "integer",
@@ -70,9 +70,9 @@
           }
         ]
       },
-      "team_members" : {
-        "description" : "Состав команды - какие студенты в каких командах",
-        "fields" : [
+      "team_members": {
+        "description": "Состав команды - какие студенты в каких командах",
+        "fields": [
           {
             "name": "team_id",
             "type": "integer",
@@ -89,7 +89,7 @@
             "name": "role",
             "type": "string",
             "required": true,
-            "description": "Роль в команде: Студент или Наставник"
+            "description": "Роль в команде: Студент, Наставник или Работодатель"
           },
           {
             "name": "joined_date",
@@ -99,9 +99,9 @@
           }
         ]
       },
-      "activity" : {
-        "description" : "Еженедельная активность студента - часы работы",
-        "fields" : [
+      "activity": {
+        "description": "Еженедельная активность студента - часы работы",
+        "fields": [
           {
             "name": "student_id",
             "type": "string",
@@ -129,7 +129,7 @@
         ]
       },
       "total_hours": {
-        "description": "Суммарные часы работы студента за разные периоды (ОБСУДИТЬ)",
+        "description": "Суммарные часы работы студента за разные периоды",
         "fields": [
           {
             "name": "student_id",
@@ -165,18 +165,18 @@
       }
     }
   },
-  "fields_not_requested" : {
+  "fields_not_requested": {
     "info_akadem": "Запрашиваем у ТПУ",
     "student_medals": "Заполняем сами(узнать)",
     "top_view": "Вычисляем сами по рейтингу",
     "login": "Генерируем сами"
   },
-  "data_usage" : {
+  "data_usage": {
     "purpose": "Формирование рейтинга проектной активности студентов",
     "storage": "База данных на сервере ТПУ",
     "access": "Только авторизованные пользователи ТПУ",
     "public_display": "Названия проектов, команды, рейтинговые баллы",
-    "update_frequency": "Раз в неделю (обсудить)"
+    "update_frequency": "Раз в неделю"
   },
   "security": {
     "transfer": "Данные передаются по HTTPS",

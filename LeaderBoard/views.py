@@ -71,8 +71,6 @@ class ActivityListView(generics.ListAPIView):
 
 class StudentLeaderBoardListView(generics.ListAPIView):
     """
-    Топ-10 студентов по часам
-
     Отдаёт топ-50 студентов ИШИТР, отсортированных по рейтингу.
 
     Параметры:
@@ -94,7 +92,7 @@ class StudentLeaderBoardListView(generics.ListAPIView):
                 Q(patronymic__icontains=search)
             )
         # сортировка
-        queryset = queryset.order_by('-study_score','-history_work_all')
+        queryset = queryset.order_by('-rating_score', '-study_score','-history_work_all')
 
         return queryset[:50]
 

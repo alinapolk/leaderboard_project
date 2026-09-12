@@ -7,6 +7,13 @@ class Command(BaseCommand):
     help = 'Заполняет базу 300 тестовыми студентами ИШИТР'
 
     def handle(self, *args, **kwargs):
+
+        # Удаление старых записей в БД
+        deleted_count, _ = Students.objects.all().delete()
+        self.stdout.write(self.style.WARNING(
+            f'Удалено {deleted_count} старых записей!'
+        ))
+
         # Группы ИШИТР
         groups = ['8ВМ01', '8ВМ02', '8ВМ11', '8ВМ12', '8ВМ03', '8ВМ04']
 
@@ -75,7 +82,7 @@ class Command(BaseCommand):
             hours_all = round(random.uniform(50, 500), 2)
 
             # Успеваемость (нормированная, макс 1.0)
-            study_score = round(random.uniform(0.3, 1.0), 2)
+            study_score = round(random.uniform(1.0, 5.0), 2)
 
             # Статус на основе часов
             if hours_all > 300:

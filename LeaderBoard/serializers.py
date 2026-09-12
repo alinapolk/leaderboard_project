@@ -236,7 +236,7 @@ class StudentLeaderBoardSerializer(serializers.ModelSerializer):
 
     full_name = serializers.SerializerMethodField()
     total_medals = serializers.SerializerMethodField()
-    rating_score = serializers.SerializerMethodField()
+    # rating_score = serializers.SerializerMethodField()
 
     class Meta:
         model = Students
@@ -264,23 +264,24 @@ class StudentLeaderBoardSerializer(serializers.ModelSerializer):
         """Считаем количество медалей"""
         return obj.student_medals_set.count()
 
-    def get_rating_score(self, obj):
-        """
-        Формула:
-
-        rating_score = (study_score + history_work_all / 288) / 2
-
-        Где:
-        - study_score: успеваемость от ТПУ (уже нормирована, макс 1.0)
-        - history_work_all: часы проектной работы
-        - 288: нормировочный коэффициент (36 + 36 + 216)
-
-        """
-        study_score = float(obj.study_score or 0)
-        hours = float(obj.history_work_all or 0)
-        rating = (study_score + hours / 288) / 2
-
-        return round(rating, 6)
+    # def get_rating_score(self, obj):
+    #     """
+    #     Формула:
+    #
+    #     rating_score = (study_score + history_work_all / 288) / 2
+    #
+    #     Где:
+    #     - study_score: успеваемость от ТПУ (уже нормирована, макс 1.0)
+    #     - history_work_all: часы проектной работы
+    #     - 288: нормировочный коэффициент (36 + 36 + 216)
+    #
+    #     """
+    #     study_score = float(obj.study_score or 0)
+    #     hours = float(obj.history_work_all or 0)
+    #     # TODO Продумать данную формулу и исправить в первую очередь
+    #     rating = (study_score + hours / 288) / 2
+    #
+    #     return round(rating, 6)
 
 class ProjectLeaderBoardSerializer(serializers.ModelSerializer):
     """Сериализатор для рейтинга проектов"""

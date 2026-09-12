@@ -15,7 +15,7 @@
         "name": "someone_id",
         "type": "string",
         "required": true,
-        "description": "Уникальный идентификатор студента в системе ТПУ. КРИТИЧНО: нужен для связи с ID студента в витрине проектов. Без него невозможно сопоставить студента с его проектами."
+        "description": "Уникальный идентификатор студента в системе ТПУ. Нужен для связи с ID студента в витрине проектов."
       },
       {
         "name": "first_name",
@@ -33,7 +33,7 @@
         "name": "patronymic",
         "type": "string",
         "required": false,
-        "description": "Отчество студента (если есть). Для корректного отображения ФИО в официальных рейтингах."
+        "description": "Отчество студента (если есть)."
       },
       {
         "name": "student_group",
@@ -45,7 +45,7 @@
         "name": "direction_name",
         "type": "string",
         "required": true,
-        "description": "Направление подготовки(для фильтрации по группам)"
+        "description": "Направление подготовки"
       },
       {
         "name": "study_year",
@@ -69,37 +69,37 @@
         "name": "info_akadem",
         "type": "text",
         "required": false,
-        "description": "Информация об академических отпусках и переводах студента(для фильтрации)"
+        "description": "Информация об академических отпусках и переводах студента"
       },
       {
         "name": "debt_count",
         "type": "integer",
         "required": true,
-        "description": "Количество академических задолженностей(чтобы не учитывать в рейтинге)"
+        "description": "Количество академических задолженностей"
       },
       {
         "name": "history_work_all",
         "type": "float",
         "required": false,
-        "description": "Всего часов проектной работы за всё время обучения(обсудить)"
+        "description": "Всего часов проектной работы за всё время обучения"
       },
       {
         "name": "history_work_sem",
         "type": "float",
         "required": false,
-        "description": "Часы проектной работы за текущий семестр(обсудить)"
+        "description": "Часы проектной работы за текущий семестр"
       },
       {
         "name": "history_work_month",
         "type": "float",
         "required": false,
-        "description": "Часы проектной работы за последний месяц(обсудить)"
+        "description": "Часы проектной работы за последний месяц"
       },
       {
         "name": "history_work_week",
         "type": "float",
         "required": false,
-        "description": "Часы проектной работы за последнюю неделю(обсудить)"
+        "description": "Часы проектной работы за последнюю неделю"
       }
     ]
   },
