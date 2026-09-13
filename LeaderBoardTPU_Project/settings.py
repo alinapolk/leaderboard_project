@@ -1,16 +1,25 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-9$iyk_^f_lg0iv42706x!cp(887#fkv)t=6_@g--+k5aeipt(a'
+# Загружаем переменные из .env
+load_dotenv(BASE_DIR / '.env')
 
-DEBUG = True
+# ============================================================
+# БЕЗОПАСНОСТЬ
+# ============================================================
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = []
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
-# Application definition
-
+# ============================================================
+# ПРИЛОЖЕНИЯ
+# ============================================================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,9 +30,9 @@ INSTALLED_APPS = [
 
     'LeaderBoard.apps.LeaderboardConfig',
     'rest_framework',
-    'corsheaders',  # Чтобы frontend мог делать запросы
+    'corsheaders',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',  # Блокировка токена при выходе
+    'rest_framework_simplejwt.token_blacklist',
     'django_celery_beat',
 ]
 
@@ -43,8 +52,7 @@ ROOT_URLCONF = 'LeaderBoardTPU_Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -59,14 +67,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'LeaderBoardTPU_Project.wsgi.application'
 
 
+# ============================================================
+# БАЗА ДАННЫХ
+# ============================================================
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "leaderBoard",
-        "USER": "leaderboard",
-        "PASSWORD": "hi",
-        "HOST": "localhost",
-        "PORT": "5433",
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
@@ -98,22 +109,31 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Cors
-CORS_ORIGIN_ALLOW_ALL = True  # для разработки, позже ограничим
 
+# ============================================================
+# CORS
+# ============================================================
+CORS_ORIGIN_ALLOW_ALL = os.getenv('CORS_ORIGIN_ALLOW_ALL', 'False') == 'True'
+
+
+# ============================================================
 # DRF
+# ============================================================
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # по умолчанию открыто
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
 
-# Simple JWT
+# ============================================================
+# JWT
+# ============================================================
 from datetime import timedelta
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
@@ -121,8 +141,11 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
+
+# ============================================================
 # CELERY
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_TIMEZONE = 'Europe/Moscow'
+# ============================================================
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
+CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE', 'Europe/Moscow')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
