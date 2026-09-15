@@ -1,8 +1,8 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from .models import Students
-from .services import calculate_rating_score
+from LeaderBoard.models import Students
+from LeaderBoard.services import calculate_rating_score
 
 
 @receiver(pre_save, sender=Students)

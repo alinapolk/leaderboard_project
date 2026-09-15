@@ -125,7 +125,12 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    # Добавляем пагинацию
+    'DEFAULT_PAGINATION_CLASS': 'LeaderBoard.common.pagination.StandardResultsSetPagination',
+    'PAGE_SIZE': 50,
+    # Добавляем обработчик ошибок
+    'EXCEPTION_HANDLER': 'LeaderBoard.common.exceptions.custom_exception_handler',
 }
 
 

@@ -1,7 +1,7 @@
 from celery import shared_task
 from django.utils import timezone
-from .models import Students
-from .services import calculate_rating_score
+from LeaderBoard.models import Students
+from LeaderBoard.services import calculate_rating_score
 
 
 @shared_task

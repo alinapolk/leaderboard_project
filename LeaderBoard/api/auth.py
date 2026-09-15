@@ -6,13 +6,15 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from django.contrib.auth.models import User, Group
 
-from .models import UserConsent, Students
-from .serializers import (LoginSerializer,
-                          UserInfoSerializer,
-                          ConsentSerializer,
-                          MeSerializer,
-                          StudentLeaderBoardSerializer
-                          )
+from LeaderBoard.models import UserConsent, Students
+from LeaderBoard.serializers import (
+    LoginSerializer,
+    UserInfoSerializer,
+    ConsentSerializer,
+    MeSerializer,
+    StudentLeaderBoardSerializer
+)
+from LeaderBoard.common.utils import get_client_ip
 
 
 def get_tokens_for_user(user):
@@ -36,7 +38,7 @@ class LoginView(APIView):
         username = serializer.validated_data['username']
         password = serializer.validated_data['password']
 
-        # ЗАГЛУШКА!!!!!!
+        # !!! ЗАГЛУШКА !!!
         # Когда ТПУ даст доступ - заменить на запрос к их API
         user = User.objects.filter(username=username).first()
 
@@ -102,7 +104,7 @@ class ConsentView(APIView):
             UserConsent.objects.update_or_create(
                 user=user,
                 defaults={
-                    'ip_address': self.get_client_ip(request),
+                    'ip_address': get_client_ip(request),
                     'is_given': True,
                 }
             )
