@@ -26,7 +26,16 @@ class Students(models.Model):
     # новичок и т.д.)
     rating_score = models.DecimalField(max_digits=8, decimal_places=2, default=0, db_index=True) # Рейтинг студентов
 
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='student_profil'
+    )
 
     class Meta:
         db_table = 'students'
+
+    def __str__(self):
+        return f"{self.last_name} {self.first_name} ({self.login})"
