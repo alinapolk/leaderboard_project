@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 
 from LeaderBoard.models import UserConsent, Students
 from LeaderBoard.serializers import (
@@ -14,18 +14,15 @@ from LeaderBoard.serializers import (
     MeSerializer,
     StudentLeaderBoardSerializer
 )
+from LeaderBoard.services import (
+    get_tokens_for_user,
+    authenticate_user,
+    check_user_consent,
+    complete_consent_flow
+)
 from LeaderBoard.common.utils import get_client_ip
 
 
-def get_tokens_for_user(user):
-    """Генерирует JWT токены"""
-    refresh = RefreshToken.for_user(user)
-    return {
-        'access': str(refresh.access_token),
-        'refresh': str(refresh),
-    }
-
-# Вход
 class LoginView(APIView):
     """POST /api/auth/login/ - вход"""
     permission_classes = [AllowAny]
@@ -38,28 +35,18 @@ class LoginView(APIView):
         username = serializer.validated_data['username']
         password = serializer.validated_data['password']
 
-        # !!! ЗАГЛУШКА !!!
-        # Когда ТПУ даст доступ - заменить на запрос к их API
-        user = User.objects.filter(username=username).first()
+        # Аутентификация через сервис
+        user, error = authenticate_user(username, password)
+        
+        if error:
+            return Response({
+                'error': error
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
-        if not user:
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-                email=f'{username}@tpu.ru',
-                first_name="Иван",
-                last_name="Иванов",
-            )
-        else:
-            if not user.check_password(password):
-                return Response({
-                    'error': "Неверный логин и пароль"
-                },status=status.HTTP_401_UNAUTHORIZED)
+        # Проверяем согласие через сервис
+        has_consent = check_user_consent(user)
 
-        # Проверяем согласие
-        consent = UserConsent.objects.filter(user=user, is_given=True).first()
-
-        if not consent:
+        if not has_consent:
             temp_token = get_tokens_for_user(user)['access']
             return Response({
                 'need_consent': True,
@@ -76,7 +63,6 @@ class LoginView(APIView):
         })
 
 
-# Согласие
 class ConsentView(APIView):
     """POST - /api/auth/consent/ - согласие"""
     permission_classes = [AllowAny]
@@ -99,57 +85,28 @@ class ConsentView(APIView):
                 'error': 'Недействительный токен'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        if consent_given:
-            # Сохраняем согласие
-            UserConsent.objects.update_or_create(
-                user=user,
-                defaults={
-                    'ip_address': get_client_ip(request),
-                    'is_given': True,
-                }
-            )
+        # Получаем IP клиента через утилиту
+        ip_address = get_client_ip(request)
 
-            # Присваиваем роль student
-            student_group, _ = Group.objects.get_or_create(name='student')
-            user.groups.add(student_group)
+        # Полный процесс обработки согласия через сервис
+        result = complete_consent_flow(user, ip_address, consent_given)
 
-            # Связываем с моделью Students
-            student = Students.objects.filter(
-                someone_id=f'tpu-{user.username}'
-            ).first()
-            if student:
-                student.user = user
-                student.save()
-
-            tokens = get_tokens_for_user(user)
+        if result['success']:
             return Response({
-                'message': 'Согласие сохранено',
-                'access': tokens['access'],
-                'refresh': tokens['refresh'],
+                'message': result['message'],
+                'access': result['tokens']['access'],
+                'refresh': result['tokens']['refresh'],
                 'user': UserInfoSerializer(user).data
             })
         else:
-            # Отказ - удаляем запись о согласии
-            UserConsent.objects.filter(user=user).delete()
             return Response({
-                'message': 'Вы отказились от обработки данных. Для участия в рейтинге необходимо необходимо дать '
-                           'согласие.',
+                'message': result['message'],
                 'redirect': '/'
             })
 
-    def get_client_ip(self, request):
-        """Получает IP-адрес пользователя"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
 
-
-# Профиль
 class MeView(APIView):
-    """GET /api/auth/me/ - возвращает данные текущего пользователя. Требует авторизацию"""
+    """GET /api/auth/me/ - возвращает данные текущего пользователя"""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -157,9 +114,8 @@ class MeView(APIView):
         return Response(MeSerializer(user).data)
 
 
-# Выход
 class LogoutView(APIView):
-    """POST /api/auth/logout/ - блокирует refresh token (выход из системы)"""
+    """POST /api/auth/logout/ - блокирует refresh token"""
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -173,7 +129,6 @@ class LogoutView(APIView):
         return Response({'message': 'Выход выполнен'}, status=status.HTTP_200_OK)
 
 
-# Обновление токена
 class RefreshTokenView(APIView):
     """POST /api/auth/refresh/ - возвращает новую пару токенов"""
     permission_classes = [AllowAny]
@@ -196,59 +151,47 @@ class RefreshTokenView(APIView):
                 'error': 'Недействительный refresh token'
             }, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class MyRatingView(APIView):
     """
     GET /api/auth/me/rating/
-
-    Возращает личный рейтинг текущего авторизованного студента
-
-    Что отдаёт:
-    - position: место в общем рейтинге
-    - total_students: сколько всего студентов в рейтинге
-    - rating_score: свой рейтинговый балл
-    - student: полные данные студента
+    Возвращает личный рейтинг текущего авторизованного студента
     """
-
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
 
-        # Находим студента, связанного с пользователем
+        # Находим студента через related_name
         try:
-            student = Students.objects.get(user=user)
+            student = user.student_profile
         except Students.DoesNotExist:
             return Response(
-                {'error' : 'Студент не найден'},
+                {'error': 'Студент не найден'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # Берём всех студентов для расчёта места
+        # Берём всех студентов для расчёта позиции
         all_students = list(Students.objects.filter(
             history_work_all__gt=0
         ))
 
-        # Если рейтинг пуст — возвращаем ошибку
         if not all_students:
             return Response(
                 {'error': 'Нет данных для расчёта рейтинга'},
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # Функция расчёта рейтинга
-        def calculate_rating_score(student):
-            study = float(student.study_score or 0)
-            hours = float(student.history_work_all or 0)
-            return round((study + hours / 288) / 2, 6)
-
-        # Мой рейтинг
-        my_rating = calculate_rating_score(student)
+        # ИСПРАВЛЕНО: используем единую формулу из сервисов
+        from LeaderBoard.services import calculate_rating_score
+        
+        my_rating = calculate_rating_score(student.study_score, student.history_work_all)
 
         # Сортируем всех по рейтингу
-        ratings = [(s, calculate_rating_score(s)) for s in all_students]
+        ratings = [(s, calculate_rating_score(s.study_score, s.history_work_all)) for s in all_students]
         ratings.sort(key=lambda x: x[1], reverse=True)
 
-        # Находим позицию (место) студента
+        # Находим позицию студента
         position = next(
             (i + 1 for i, (s, r) in enumerate(ratings) if s.login == student.login),
             None
