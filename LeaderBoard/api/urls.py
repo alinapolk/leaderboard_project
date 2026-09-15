@@ -10,6 +10,7 @@ urlpatterns = [
     path('students/<str:login>/teams/', students.StudentsTeamsListView.as_view(), name='student_teams'),
     path('students/<str:login>/activity/', students.StudentActivityView.as_view(), name='student_activity'),
     path('students/<str:login>/medals/', students.StudentMedalsView.as_view(), name='student_medals'),
+    path('students/<str:login>/rating/history/', students.StudentRatingHistoryView.as_view(), name='student_rating_history'),
 
     # ПРОЕКТЫ
     path('projects/', projects.ProjectListView.as_view(), name='project_list'),
