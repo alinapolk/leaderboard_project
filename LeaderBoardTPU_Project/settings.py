@@ -154,3 +154,21 @@ CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE', 'Europe/Moscow')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# ============================================================
+# ИНТЕГРАЦИИ С ВНЕШНИМИ API
+# ============================================================
+
+# API ТПУ
+TPU_API_BASE_URL = os.getenv('TPU_API_BASE_URL', 'https://api.tpu.ru/v1')
+TPU_CLIENT_ID = os.getenv('TPU_CLIENT_ID', '')
+TPU_CLIENT_SECRET = os.getenv('TPU_CLIENT_SECRET', '')
+TPU_API_MOCK_MODE = os.getenv('TPU_API_MOCK_MODE', 'True') == 'True'
+TPU_API_MOCK_PATH = BASE_DIR / 'mocks' / 'tpu'
+
+# API Витрины
+VITRINA_API_BASE_URL = os.getenv('VITRINA_API_BASE_URL', 'https://vitrina.tpu.ru/api/v1')
+VITRINA_CLIENT_ID = os.getenv('VITRINA_CLIENT_ID', '')
+VITRINA_CLIENT_SECRET = os.getenv('VITRINA_CLIENT_SECRET', '')
+VITRINA_API_MOCK_MODE = os.getenv('VITRINA_API_MOCK_MODE', 'True') == 'True'
+VITRINA_API_MOCK_PATH = BASE_DIR / 'mocks' / 'vitrina'

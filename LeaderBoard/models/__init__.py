@@ -4,6 +4,7 @@ from .team import Teams
 from .activity import Student_Teams, Student_Activity
 from .medal import Student_Medals
 from .consent import UserConsent
+from .rating_snapshot import RatingSnapshot
 
 __all__ = [
     'Students',
@@ -13,4 +14,5 @@ __all__ = [
     'Student_Activity',
     'Student_Medals',
     'UserConsent',
+    'RatingSnapshot',
 ]

@@ -1,0 +1,17 @@
+{
+  "students": [
+    {
+      "login": "test.student",
+      "someone_id": "12345",
+      "first_name": "Тест",
+      "last_name": "Студент",
+      "patronymic": "Тестович",
+      "student_group": "1234",
+      "direction_name": "Информатика",
+      "study_year": 2,
+      "faculty": "ИШИТР",
+      "study_score": 4.5,
+      "debt_count": 0
+    }
+  ]
+}
