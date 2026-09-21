@@ -71,6 +71,27 @@ def map_teams(data: Any) -> List[VitrinaTeamDTO]:
     return result
 
 
+def map_team_members(data: Any) -> List[VitrinaTeamMemberDTO]:
+    """Преобразует ответ в список участников команд"""
+    members_data = data.get('members', []) if isinstance(data, dict) else data
+    
+    result = []
+    for item in members_data:
+        try:
+            dto = VitrinaTeamMemberDTO(
+                student_login=str(item.get('student_login', '')),
+                team_id=str(item.get('team_id', '')),
+                role=str(item.get('role', 'Студент')),
+                joined_date=item.get('joined_date'),
+            )
+            result.append(dto)
+        except (KeyError, ValueError, TypeError) as e:
+            import logging
+            logging.getLogger(__name__).warning(f"Failed to map team member: {item} — {e}")
+    
+    return result
+
+
 def map_activities(data: Any) -> List[VitrinaActivityDTO]:
     """Преобразует ответ в список активностей"""
     activities_data = data.get('activities', []) if isinstance(data, dict) else data

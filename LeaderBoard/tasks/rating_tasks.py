@@ -6,7 +6,7 @@ from LeaderBoard.services import recalculate_all_ratings
 @shared_task
 def recalculate_ratings():
     """
-    Пересчитывает rating_score для ВСЕХ студентов.
+    Пересчитывает rating_score для всех студентов.
     Запускается по расписанию через Celery Beat.
     
     Использует bulk_update для производительности.
