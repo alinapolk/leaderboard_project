@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     Students, Projects, Teams,
     Student_Teams, Student_Activity, Student_Medals,
-    UserConsent
+    UserConsent, RatingSnapshot, ExternalSource, SyncRun, SyncError, RawApiLog
 )
 
 
@@ -12,12 +12,16 @@ class StudentsAdmin(admin.ModelAdmin):
     list_display = (
         'login', 'full_name_display', 'student_group',
         'study_year', 'study_score', 'history_work_all',
-        'rating_score', 'top_view'
+        'rating_score', 'rating_score_week', 'rating_score_month',
+        'rating_score_sem', 'top_view'
     )
     list_filter = ('faculty', 'student_group', 'study_year', 'top_view')
     search_fields = ('login', 'first_name', 'last_name', 'patronymic')
     ordering = ('-rating_score',)
-    readonly_fields = ('rating_score',)
+    readonly_fields = (
+        'rating_score', 'rating_score_week', 
+        'rating_score_month', 'rating_score_sem'
+    )
 
     fieldsets = (
         ('Идентификация', {
@@ -35,7 +39,10 @@ class StudentsAdmin(admin.ModelAdmin):
                        'history_work_month', 'history_work_week')
         }),
         ('Рейтинг', {
-            'fields': ('rating_score', 'top_view')
+            'fields': (
+                'rating_score', 'rating_score_week',
+                'rating_score_month', 'rating_score_sem', 'top_view'
+            )
         }),
     )
 
@@ -46,6 +53,39 @@ class StudentsAdmin(admin.ModelAdmin):
         return ' '.join(parts)
 
     full_name_display.short_description = 'ФИО'
+
+
+# ИСТОРИЯ РЕЙТИНГА
+@admin.register(RatingSnapshot)
+class RatingSnapshotAdmin(admin.ModelAdmin):
+    list_display = (
+        'student', 'score', 'study_score', 'history_work_all',
+        'formula_version', 'reason', 'created_at'
+    )
+    list_filter = ('reason', 'formula_version', 'created_at')
+    search_fields = ('student__login', 'student__first_name', 'student__last_name')
+    readonly_fields = (
+        'student', 'score', 'study_score', 'history_work_all',
+        'study_component', 'work_component', 'formula_version',
+        'reason', 'created_at'
+    )
+    date_hierarchy = 'created_at'
+    ordering = ('-created_at',)
+
+    fieldsets = (
+        ('Студент', {
+            'fields': ('student',)
+        }),
+        ('Рейтинг', {
+            'fields': (
+                'score', 'study_score', 'history_work_all',
+                'study_component', 'work_component'
+            )
+        }),
+        ('Метаданные', {
+            'fields': ('formula_version', 'reason', 'created_at')
+        }),
+    )
 
 
 # ПРОЕКТЫ
@@ -114,3 +154,52 @@ class UserConsentAdmin(admin.ModelAdmin):
     list_filter = ('is_given',)
     search_fields = ('user__username',)
     readonly_fields = ('ip_address', 'consent_date')
+
+
+# 
+@admin.register(ExternalSource)
+class ExternalSourceAdmin(admin.ModelAdmin):
+    list_display = ('code', 'name', 'base_url', 'is_active', 'created_at')
+    list_filter = ('is_active',)
+    search_fields = ('code', 'name')
+
+
+@admin.register(SyncRun)
+class SyncRunAdmin(admin.ModelAdmin):
+    list_display = (
+        'source', 'task_name', 'status', 'started_at', 'finished_at',
+        'records_received', 'records_created', 'records_updated', 'records_failed', 'duration_seconds'
+    )
+    list_filter = ('source', 'status', 'started_at')
+    search_fields = ('task_name', 'error_message')
+    readonly_fields = (
+        'source', 'task_name', 'status', 'started_at', 'finished_at',
+        'records_received', 'records_created', 'records_updated',
+        'records_skipped', 'records_failed', 'error_message', 'duration_seconds'
+    )
+    date_hierarchy = 'started_at'
+    
+    def duration_seconds(self, obj):
+        return f"{obj.duration_seconds:.1f}s" if obj.duration_seconds else "-"
+    duration_seconds.short_description = 'Длительность'
+
+
+@admin.register(SyncError)
+class SyncErrorAdmin(admin.ModelAdmin):
+    list_display = ('sync_run', 'external_id', 'error_type', 'created_at')
+    list_filter = ('sync_run__source', 'error_type', 'created_at')
+    search_fields = ('external_id', 'error_message')
+    readonly_fields = ('sync_run', 'external_id', 'error_message', 'error_type', 'payload', 'created_at')
+    date_hierarchy = 'created_at'
+
+
+@admin.register(RawApiLog)
+class RawApiLogAdmin(admin.ModelAdmin):
+    list_display = ('source', 'endpoint', 'status_code', 'created_at')
+    list_filter = ('source', 'status_code', 'created_at')
+    search_fields = ('endpoint', 'error_message')
+    readonly_fields = (
+        'source', 'sync_run', 'endpoint', 'request_params',
+        'request_body', 'status_code', 'response_body', 'error_message', 'created_at'
+    )
+    date_hierarchy = 'created_at'
