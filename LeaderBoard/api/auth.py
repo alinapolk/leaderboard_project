@@ -6,7 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from django.contrib.auth.models import User
 
-from LeaderBoard.models import UserConsent, Students
+from LeaderBoard.models import Students
 from LeaderBoard.serializers import (
     LoginSerializer,
     UserInfoSerializer,
@@ -154,15 +154,19 @@ class RefreshTokenView(APIView):
 
 class MyRatingView(APIView):
     """
-    GET /api/auth/me/rating/
-    Возвращает личный рейтинг текущего авторизованного студента
+    GET /api/auth/me/rating/?period=all
+    Возвращает личный рейтинг текущего студента за указанный период
     """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
+        period = request.query_params.get('period', 'all')
 
-        # Находим студента через related_name
+        from LeaderBoard.services.rating_service import AVAILABLE_PERIODS
+        if period not in AVAILABLE_PERIODS:
+            period = 'all'
+
         try:
             student = user.student_profile
         except Students.DoesNotExist:
@@ -171,35 +175,28 @@ class MyRatingView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        # Берём всех студентов для расчёта позиции
-        all_students = list(Students.objects.filter(
-            history_work_all__gt=0
-        ))
-
-        if not all_students:
-            return Response(
-                {'error': 'Нет данных для расчёта рейтинга'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-        # ИСПРАВЛЕНО: используем единую формулу из сервисов
-        from LeaderBoard.services import calculate_rating_score
-        
-        my_rating = calculate_rating_score(student.study_score, student.history_work_all)
-
-        # Сортируем всех по рейтингу
-        ratings = [(s, calculate_rating_score(s.study_score, s.history_work_all)) for s in all_students]
-        ratings.sort(key=lambda x: x[1], reverse=True)
-
-        # Находим позицию студента
-        position = next(
-            (i + 1 for i, (s, r) in enumerate(ratings) if s.login == student.login),
-            None
+        from LeaderBoard.services.rating_service import (
+            calculate_rating_score, PERIOD_RATING_FIELD, PERIOD_HOURS_FIELD
         )
 
+        # Получаем рейтинг за выбранный период
+        rating_field = PERIOD_RATING_FIELD[period]
+        hours_field = PERIOD_HOURS_FIELD[period]
+        my_rating = getattr(student, rating_field)
+        my_hours = getattr(student, hours_field)
+
+        # Считаем позицию среди всех студентов
+        all_students = Students.objects.filter(history_work_all__gt=0)
+        total = all_students.count()
+
+        # Позиция: сколько студентов с рейтингом выше
+        position = all_students.filter(**{f'{rating_field}__gt': my_rating}).count() + 1
+
         return Response({
+            'period': period,
             'position': position,
-            'total_students': len(all_students),
+            'total_students': total,
             'rating_score': my_rating,
+            'hours': my_hours,
             'student': StudentLeaderBoardSerializer(student).data
         })

@@ -5,6 +5,7 @@ from .activity import Student_Teams, Student_Activity
 from .medal import Student_Medals
 from .consent import UserConsent
 from .rating_snapshot import RatingSnapshot
+from .sync import ExternalSource, SyncRun, SyncError, RawApiLog
 
 __all__ = [
     'Students',
@@ -15,4 +16,8 @@ __all__ = [
     'Student_Medals',
     'UserConsent',
     'RatingSnapshot',
+    'ExternalSource',
+    'SyncRun',
+    'SyncError',
+    'RawApiLog',
 ]

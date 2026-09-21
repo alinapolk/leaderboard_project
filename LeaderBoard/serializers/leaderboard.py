@@ -19,9 +19,13 @@ class StudentLeaderBoardSerializer(serializers.ModelSerializer):
             'history_work_all',
             'history_work_sem',
             'history_work_month',
+            'history_work_week',
             'study_score',
             'total_medals',
             'rating_score',
+            'rating_score_week',
+            'rating_score_month',
+            'rating_score_sem',
         ]
 
     def get_full_name(self, obj):

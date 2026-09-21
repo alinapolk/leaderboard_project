@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from ..base_client import BaseApiClient
-from .dto import VitrinaProjectDTO, VitrinaTeamDTO, VitrinaActivityDTO
-from .mapper import map_projects, map_teams, map_activities
+from .dto import VitrinaProjectDTO, VitrinaTeamDTO,VitrinaTeamMemberDTO, VitrinaActivityDTO
+from .mapper import map_projects, map_teams,map_team_members, map_activities
 from .exceptions import VitrinaApiError
 
 
@@ -56,6 +56,12 @@ class VitrinaClient(BaseApiClient):
         data = self.get('/teams')
         return map_teams(data)
     
+    def get_team_members(self, team_id: str) -> List[VitrinaTeamMemberDTO]:
+        """Получает состав команды"""
+        logger.info(f"Fetching members for team {team_id} from Vitrina API")
+        data = self.get(f'/teams/{team_id}/members')
+        return map_team_members(data)
+
     def get_activities(self) -> List[VitrinaActivityDTO]:
         """Получает активность студентов (часы)"""
         logger.info("Fetching activities from Vitrina API")
