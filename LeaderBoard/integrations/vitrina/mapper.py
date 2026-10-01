@@ -1,13 +1,34 @@
 from datetime import datetime
+from typing import List, Any, Optional
 from decimal import Decimal, InvalidOperation
-from typing import List, Any
 
 from .dto import (
-    VitrinaProjectDTO,
-    VitrinaTeamDTO,
-    VitrinaTeamMemberDTO,
     VitrinaActivityDTO,
+    VitrinaProjectDTO,
+    VitrinaCheckpointDTO,
+    VitrinaRoleDTO,
 )
+
+
+def _strip_keys(data: Any) -> Any:
+    """
+    Рекурсивно убирает пробелы из ключей словаря.
+    Нужно, если реальное API возвращает ключи вида "id " вместо "id".
+    """
+    if isinstance(data, dict):
+        return {str(k).strip(): _strip_keys(v) for k, v in data.items()}
+    if isinstance(data, list):
+        return [_strip_keys(item) for item in data]
+    return data
+
+
+def _get(data: dict, key: str, default=None):
+    """Безопасное получение значения с учётом возможных пробелов"""
+    if key in data:
+        return data[key]
+    if f"{key} " in data:
+        return data[f"{key} "]
+    return default
 
 
 def _parse_date(value: Any):
@@ -15,6 +36,7 @@ def _parse_date(value: Any):
     if not value:
         return None
     if isinstance(value, str):
+        value = value.strip()
         for fmt in ('%Y-%m-%d', '%d.%m.%Y'):
             try:
                 return datetime.strptime(value, fmt).date()
@@ -23,97 +45,160 @@ def _parse_date(value: Any):
     return None
 
 
+def _map_checkpoint(item: dict, is_custom: bool = False) -> Optional[VitrinaCheckpointDTO]:
+    """Маппит одну контрольную точку"""
+    try:
+        title = _get(item, 'title', '')
+        deadline = _parse_date(_get(item, 'deadline'))
+        if not title or not deadline:
+            return None
+        return VitrinaCheckpointDTO(
+            title=title.strip(),
+            deadline=deadline,
+            is_custom=is_custom,
+        )
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning(f"Failed to map checkpoint: {item} — {e}")
+        return None
+
+
+def _map_role(item: dict) -> Optional[VitrinaRoleDTO]:
+    """Маппит одну роль в команде"""
+    try:
+        role_type = _get(item, 'roleType', {}) or {}
+        places = _get(item, 'places', []) or []
+        
+        return VitrinaRoleDTO(
+            role_id=str(_get(item, 'roleId', '')).strip(),
+            role_name=str(_get(role_type, 'name', '')).strip(),
+            places_count=int(_get(item, 'placesCount', 0) or 0),
+            min_places_count=int(_get(item, 'minPlacesCount', 0) or 0),
+            places=[int(p) for p in places if p is not None],
+            applications_count=int(_get(item, 'applicationsCount', 0) or 0),
+        )
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning(f"Failed to map role: {item} — {e}")
+        return None
+
+
 def map_projects(data: Any) -> List[VitrinaProjectDTO]:
-    """Преобразует ответ в список проектов"""
-    projects_data = []
+    """
+    Преобразует ответ Витрины в список проектов.
     
-    if isinstance(data, dict) and 'projects' in data:
-        projects_data = data['projects']
+    Формат ответа:
+    {
+        "hits": [...],
+        "total": 3,
+        "offset": 0,
+        "limit": 20
+    }
+    """
+    # Если нужно — убираем пробелы из всех ключей
+    data = _strip_keys(data)
+    
+    projects_data = []
+    if isinstance(data, dict):
+        projects_data = data.get('hits', []) or data.get('projects', [])
     elif isinstance(data, list):
         projects_data = data
     
     result = []
     for item in projects_data:
         try:
+            # Метаданные
+            meta = _get(item, 'meta', {}) or {}
+            partner = _get(item, 'partner', {}) or {}
+            primary_tag = _get(item, 'primaryTag', {}) or {}
+            tags_raw = _get(item, 'tags', []) or []
+            
+            # Checkpoints (обычные + кастомные)
+            checkpoints_data = _get(item, 'checkpoints', {}) or {}
+            checkpoints_list = _get(checkpoints_data, 'checkpoints', []) or []
+            custom_checkpoints = _get(item, 'customCheckpoints', []) or []
+            
+            checkpoints = []
+            for cp in checkpoints_list:
+                mapped = _map_checkpoint(cp, is_custom=False)
+                if mapped:
+                    checkpoints.append(mapped)
+            for cp in custom_checkpoints:
+                mapped = _map_checkpoint(cp, is_custom=True)
+                if mapped:
+                    checkpoints.append(mapped)
+            
+            # Roles
+            roles_raw = _get(item, 'roles', []) or []
+            roles = [r for r in (_map_role(role) for role in roles_raw) if r]
+            
+            # Repository
+            repositories = _get(item, 'repository', []) or []
+            repository_url = repositories[0].get('url') if repositories else None
+            
             dto = VitrinaProjectDTO(
-                id_project=str(item.get('id_project', '')),
-                project_name=str(item.get('project_name', '')),
-                description=item.get('description'),
-                info_akadem=item.get('info_akadem'),
+                external_id=str(_get(item, 'id', '')).strip(),
+                project_type=str(_get(item, 'type', '')).strip(),
+                status=str(_get(item, 'status', '')).strip(),
+                owner_id=_get(item, 'ownerId'),
+                title=str(_get(meta, 'title', '')).strip(),
+                description=_get(meta, 'description'),
+                partner_name=_get(partner, 'name'),
+                primary_tag=_get(primary_tag, 'tagName'),
+                tags=[_get(t, 'tagName', '') for t in tags_raw if _get(t, 'tagName')],
+                is_promoted=bool(_get(item, 'isPromoted', False)),
+                checkpoints=checkpoints,
+                roles=roles,
+                repository_url=repository_url,
             )
-            result.append(dto)
-        except (KeyError, ValueError, TypeError) as e:
+            
+            if dto.external_id and dto.title:
+                result.append(dto)
+        
+        except Exception as e:
             import logging
             logging.getLogger(__name__).warning(f"Failed to map project: {item} — {e}")
     
     return result
 
 
-def map_teams(data: Any) -> List[VitrinaTeamDTO]:
-    """Преобразует ответ в список команд"""
-    teams_data = data.get('teams', []) if isinstance(data, dict) else data
-    
-    result = []
-    for item in teams_data:
-        try:
-            dto = VitrinaTeamDTO(
-                team_id=str(item.get('team_id', '')),
-                project_id=str(item.get('project_id', '')),
-                expert_score=item.get('expert_score'),
-                period_start=_parse_date(item.get('period_start')),
-                period_end=_parse_date(item.get('period_end')),
-            )
-            result.append(dto)
-        except (KeyError, ValueError, TypeError) as e:
-            import logging
-            logging.getLogger(__name__).warning(f"Failed to map team: {item} — {e}")
-    
-    return result
-
-
-def map_team_members(data: Any) -> List[VitrinaTeamMemberDTO]:
-    """Преобразует ответ в список участников команд"""
-    members_data = data.get('members', []) if isinstance(data, dict) else data
-    
-    result = []
-    for item in members_data:
-        try:
-            dto = VitrinaTeamMemberDTO(
-                student_login=str(item.get('student_login', '')),
-                team_id=str(item.get('team_id', '')),
-                role=str(item.get('role', 'Студент')),
-                joined_date=item.get('joined_date'),
-            )
-            result.append(dto)
-        except (KeyError, ValueError, TypeError) as e:
-            import logging
-            logging.getLogger(__name__).warning(f"Failed to map team member: {item} — {e}")
-    
-    return result
-
-
-def map_activities(data: Any) -> List[VitrinaActivityDTO]:
+def map_activities(data: Any) -> List['VitrinaActivityDTO']:
     """Преобразует ответ в список активностей"""
-    activities_data = data.get('activities', []) if isinstance(data, dict) else data
+    from .dto import VitrinaActivityDTO
+    
+    data = _strip_keys(data)
+    
+    activities_data = []
+    if isinstance(data, dict):
+        activities_data = data.get('activities', []) or data.get('hits', [])
+    elif isinstance(data, list):
+        activities_data = data
     
     result = []
     for item in activities_data:
         try:
-            hours = item.get('hours_weekly', 0)
+            hours = _get(item, 'hours_weekly', 0)
             try:
                 hours_decimal = Decimal(str(hours))
             except (InvalidOperation, TypeError):
                 hours_decimal = Decimal('0')
             
+            weekly_period = _parse_date(_get(item, 'weekly_period'))
+            
+            if not weekly_period:
+                continue
+            
             dto = VitrinaActivityDTO(
-                student_login=str(item.get('student_login', '')),
-                team_id=str(item.get('team_id', '')),
+                student_login=str(_get(item, 'student_login', '')).strip(),
+                team_id=str(_get(item, 'team_id', '')).strip(),
                 hours_weekly=hours_decimal,
-                weekly_period=_parse_date(item.get('weekly_period')),
+                weekly_period=weekly_period,
             )
-            if dto.weekly_period:  # Только если дата корректна
+            
+            if dto.student_login and dto.team_id:
                 result.append(dto)
-        except (KeyError, ValueError, TypeError) as e:
+        
+        except Exception as e:
             import logging
             logging.getLogger(__name__).warning(f"Failed to map activity: {item} — {e}")
     

@@ -1,5 +1,5 @@
 from .student import Students
-from .project import Projects
+from .project import Projects, ProjectCheckpoint
 from .team import Teams
 from .activity import Student_Teams, Student_Activity
 from .medal import Student_Medals
@@ -20,4 +20,5 @@ __all__ = [
     'SyncRun',
     'SyncError',
     'RawApiLog',
+    'ProjectCheckpoint',
 ]

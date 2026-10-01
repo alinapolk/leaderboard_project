@@ -10,11 +10,7 @@ logger = logging.getLogger(__name__)
 
 @shared_task(bind=True, max_retries=3)
 def sync_tpu_students(self):
-    """
-    Синхронизация студентов из API ТПУ.
-    
-    При ошибке пытается повторить до 3 раз с экспоненциальной задержкой.
-    """
+    """Синхронизация студентов из API ТПУ"""
     try:
         client = get_tpu_client()
         result = run_full_tpu_sync(client)
@@ -22,13 +18,12 @@ def sync_tpu_students(self):
         return result
     except Exception as exc:
         logger.error(f"TPU sync task failed: {exc}")
-        # Повтор с экспоненциальной задержкой
         raise self.retry(exc=exc, countdown=60 * (2 ** self.request.retries))
 
 
 @shared_task(bind=True, max_retries=3)
-def sync_vitrina_projects(self):
-    """Синхронизация проектов из API Витрины"""
+def sync_vitrina_data(self):
+    """Синхронизация проектов и активностей из Витрины"""
     try:
         client = get_vitrina_client()
         result = run_full_vitrina_sync(client)
@@ -41,14 +36,13 @@ def sync_vitrina_projects(self):
 
 @shared_task
 def sync_all_data():
-    """Полная синхронизация всех данных — запускает цепочку задач"""
+    """Полная синхронизация всех данных"""
     from celery import chain
     from LeaderBoard.tasks.rating_tasks import recalculate_ratings
     
-    # Цепочка: TPU -> Vitrina -> Пересчёт рейтинга
     task_chain = chain(
         sync_tpu_students.s(),
-        sync_vitrina_projects.s(),
+        sync_vitrina_data.s(),
         recalculate_ratings.s(),
     )
     return task_chain.apply_async()

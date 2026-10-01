@@ -1,8 +1,8 @@
 from .client import VitrinaClient
 from .dto import (
     VitrinaProjectDTO,
-    VitrinaTeamDTO,
-    VitrinaTeamMemberDTO,
+    VitrinaCheckpointDTO,
+    VitrinaRoleDTO,
     VitrinaActivityDTO,
 )
 from .exceptions import VitrinaApiError, VitrinaApiAuthError
@@ -10,8 +10,8 @@ from .exceptions import VitrinaApiError, VitrinaApiAuthError
 __all__ = [
     'VitrinaClient',
     'VitrinaProjectDTO',
-    'VitrinaTeamDTO',
-    'VitrinaTeamMemberDTO',
+    'VitrinaCheckpointDTO',
+    'VitrinaRoleDTO',
     'VitrinaActivityDTO',
     'VitrinaApiError',
     'VitrinaApiAuthError',

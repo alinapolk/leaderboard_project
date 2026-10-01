@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from ..base_client import BaseApiClient
-from .dto import VitrinaProjectDTO, VitrinaTeamDTO,VitrinaTeamMemberDTO, VitrinaActivityDTO
-from .mapper import map_projects, map_teams,map_team_members, map_activities
+from .dto import VitrinaProjectDTO, VitrinaActivityDTO
+from .mapper import map_projects, map_activities
 from .exceptions import VitrinaApiError
 
 
@@ -12,15 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class VitrinaClient(BaseApiClient):
-    """
-    Клиент для работы с API Витрины проектов ИШИТР+.
-    
-    Используется для получения:
-    - Проектов
-    - Команд
-    - Активности студентов (часы)
-    """
-    
+    """Клиент для работы с API Витрины проектов ИШИТР+"""
+
     def __init__(
         self,
         base_url: str,
@@ -40,30 +33,26 @@ class VitrinaClient(BaseApiClient):
             client_id=client_id,
             client_secret=client_secret,
         )
-    
+
     def _build_error(self, message: str, original_error=None):
         return VitrinaApiError(f"{message}: {original_error}")
-    
-    def get_projects(self) -> List[VitrinaProjectDTO]:
-        """Получает список проектов"""
-        logger.info("Fetching projects from Vitrina API")
-        data = self.get('/projects')
+
+    def get_projects(self, limit: int = 20, offset: int = 0) -> List[VitrinaProjectDTO]:
+        """Получает список проектов с пагинацией"""
+        logger.info(f"Fetching projects from Vitrina API (limit={limit}, offset={offset})")
+        data = self.get('/projects', params={'limit': limit, 'offset': offset})
         return map_projects(data)
-    
-    def get_teams(self) -> List[VitrinaTeamDTO]:
-        """Получает список команд"""
-        logger.info("Fetching teams from Vitrina API")
-        data = self.get('/teams')
-        return map_teams(data)
-    
-    def get_team_members(self, team_id: str) -> List[VitrinaTeamMemberDTO]:
-        """Получает состав команды"""
-        logger.info(f"Fetching members for team {team_id} from Vitrina API")
-        data = self.get(f'/teams/{team_id}/members')
-        return map_team_members(data)
 
     def get_activities(self) -> List[VitrinaActivityDTO]:
-        """Получает активность студентов (часы)"""
+        """
+        Получает активность студентов (часы).
+        
+        Пока заглушка — эндпоинт будет уточнён отдельно.
+        """
         logger.info("Fetching activities from Vitrina API")
-        data = self.get('/activities')
-        return map_activities(data)
+        try:
+            data = self.get('/activities')
+            return map_activities(data)
+        except Exception as e:
+            logger.warning(f"Activities endpoint not available yet: {e}")
+            return []

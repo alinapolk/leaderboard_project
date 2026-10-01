@@ -7,11 +7,11 @@ from django.utils import timezone
 
 from LeaderBoard.models import (
     Students, Projects, Teams, Student_Teams, Student_Activity,
-    ExternalSource, SyncRun, SyncError, RawApiLog
+    ExternalSource, SyncRun, SyncError, RawApiLog, ProjectCheckpoint
 )
 from LeaderBoard.integrations.tpu import TPUStudentDTO, TPUApiError
 from LeaderBoard.integrations.vitrina import (
-    VitrinaProjectDTO, VitrinaTeamDTO, VitrinaActivityDTO, VitrinaApiError, VitrinaTeamMemberDTO
+    VitrinaProjectDTO, VitrinaActivityDTO, VitrinaApiError
 )
 
 
@@ -189,29 +189,30 @@ def sync_tpu_students(students_dto: List[TPUStudentDTO], sync_run: SyncRun) -> d
 # Синхронизация проектов из Витрины
 @transaction.atomic
 def sync_vitrina_projects(projects_dto: List[VitrinaProjectDTO], sync_run: SyncRun) -> dict:
-    """Синхронизирует проекты из API Витрины"""
+    """Синхронизирует проекты из Витрины (финальная версия формата)"""
     context = SyncContext(sync_run)
     
     for dto in projects_dto:
         try:
-            if not dto.id_project:
+            if not dto.external_id:
                 context.add_error(
                     external_id=None,
-                    error_message="Project id is empty",
-                    payload={'project_name': dto.project_name},
+                    error_message="Project external_id is empty",
+                    payload={'title': dto.title},
                 )
                 continue
             
-            # Пробуем найти проект по внешнему ID
-            # В текущей модели id_project — это AutoField, поэтому для идемпотентности нужен либо внешний ключ, либо переделать модель.
-            # Пока используем project_name как fallback
-            
+            # Идемпотентный upsert по external_id
             project, created = Projects.objects.update_or_create(
-                # TODO: заменить на внешний ID после рефакторинга модели
-                project_name=dto.project_name,  
+                external_id=dto.external_id,
                 defaults={
+                    'project_name': dto.title,
                     'description': dto.description or '',
-                    'info_akadem': dto.info_akadem or '',
+                    'project_type': dto.project_type,
+                    'status': dto.status,
+                    'category': dto.primary_tag or '',
+                    'partner': dto.partner_name or '',
+                    'is_promoted': dto.is_promoted,
                 }
             )
             
@@ -219,12 +220,17 @@ def sync_vitrina_projects(projects_dto: List[VitrinaProjectDTO], sync_run: SyncR
                 context.add_created()
             else:
                 context.add_updated()
+            
+            # Синхронизируем checkpoints
+            _sync_project_checkpoints(project, dto.checkpoints)
+            
+            # TODO: Синхронизация ролей (после маппинга ownerId -> login студента)
         
         except Exception as e:
             context.add_error(
-                external_id=dto.id_project,
+                external_id=dto.external_id,
                 error_message=str(e),
-                payload={'id_project': dto.id_project, 'project_name': dto.project_name},
+                payload={'external_id': dto.external_id, 'title': dto.title},
                 error_type=type(e).__name__,
             )
     
@@ -238,141 +244,25 @@ def sync_vitrina_projects(projects_dto: List[VitrinaProjectDTO], sync_run: SyncR
     }
 
 
-# Синхроназция команд из Витрины
-@transaction.atomic
-def sync_vitrina_teams(teams_dto: List[VitrinaTeamDTO], sync_run: SyncRun) -> dict:
-    """Синхронизирует команды из API Витрины"""
-    context = SyncContext(sync_run)
+def _sync_project_checkpoints(project, checkpoints_dto) -> None:
+    """Синхронизирует контрольные точки проекта"""
+    from LeaderBoard.models import ProjectCheckpoint
     
-    for dto in teams_dto:
-        try:
-            if not dto.team_id or not dto.project_id:
-                context.add_error(
-                    external_id=dto.team_id,
-                    error_message="Team ID or Project ID is empty",
-                    payload={'team_id': dto.team_id, 'project_id': dto.project_id},
-                )
-                continue
-            
-            # Находим проект по внешнему ID (используем project_name как временный ключ)
-            # В идеале нужно хранить внешний ID проекта в модели
-            project = Projects.objects.filter(id_project=dto.project_id).first()
-            
-            if not project:
-                context.add_error(
-                    external_id=dto.team_id,
-                    error_message=f"Project with id_project={dto.project_id} not found",
-                    payload={'team_id': dto.team_id, 'project_id': dto.project_id},
-                )
-                continue
-            
-            # Создаём команду (если ещё не существует)
-            # Используем внешний ID через поиск — нужна доработка модели
-            # Пока используем простой подход
-            team, created = Teams.objects.get_or_create(
-                project=project,
-                period_start=dto.period_start,
-                defaults={
-                    'expert_score': dto.expert_score or '',
-                    'period_end': dto.period_end,
-                }
-            )
-            
-            if created:
-                context.add_created()
-            else:
-                context.add_skipped()
-        
-        except Exception as e:
-            context.add_error(
-                external_id=dto.team_id,
-                error_message=str(e),
-                payload={'team_id': dto.team_id},
-                error_type=type(e).__name__,
-            )
+    for cp_dto in checkpoints_dto:
+        ProjectCheckpoint.objects.update_or_create(
+            project=project,
+            title=cp_dto.title,
+            defaults={
+                'deadline': cp_dto.deadline,
+                'is_custom': cp_dto.is_custom,
+            }
+        )
     
-    context.finalize(received=len(teams_dto))
-    
-    return {
-        'received': len(teams_dto),
-        'created': context.created,
-        'updated': context.updated,
-        'failed': context.failed,
-    }
-
-
-# Синхронизация участников команд из Витрины
-@transaction.atomic
-def sync_team_members(members_dto: List[VitrinaTeamMemberDTO], sync_run: SyncRun) -> dict:
-    """Синхронизирует участников команд из API Витрины"""
-    context = SyncContext(sync_run)
-    
-    for dto in members_dto:
-        try:
-            if not dto.student_login or not dto.team_id:
-                context.add_error(
-                    external_id=dto.student_login,
-                    error_message="Student login or team_id is missing",
-                    payload={
-                        'student_login': dto.student_login,
-                        'team_id': dto.team_id,
-                    },
-                )
-                continue
-            
-            # Находим студента
-            student = Students.objects.filter(login=dto.student_login).first()
-            if not student:
-                context.add_error(
-                    external_id=dto.student_login,
-                    error_message=f"Student with login={dto.student_login} not found",
-                    payload={'student_login': dto.student_login},
-                )
-                continue
-            
-            # Находим команду
-            team = Teams.objects.filter(team_id=dto.team_id).first()
-            if not team:
-                context.add_error(
-                    external_id=dto.student_login,
-                    error_message=f"Team with team_id={dto.team_id} not found",
-                    payload={'student_login': dto.student_login, 'team_id': dto.team_id},
-                )
-                continue
-            
-            # Создаём связь студент-команда (уникальность: team + student)
-            member, created = Student_Teams.objects.update_or_create(
-                student=student,
-                team=team,
-                defaults={
-                    'rol': dto.role,
-                }
-            )
-            
-            if created:
-                context.add_created()
-            else:
-                context.add_updated()
-        
-        except Exception as e:
-            context.add_error(
-                external_id=dto.student_login,
-                error_message=str(e),
-                payload={
-                    'student_login': dto.student_login,
-                    'team_id': dto.team_id,
-                },
-                error_type=type(e).__name__,
-            )
-    
-    context.finalize(received=len(members_dto))
-    
-    return {
-        'received': len(members_dto),
-        'created': context.created,
-        'updated': context.updated,
-        'failed': context.failed,
-    }
+    # Удаляем чекпоинты, которых больше нет в API
+    current_titles = {cp.title for cp in checkpoints_dto}
+    ProjectCheckpoint.objects.filter(project=project).exclude(
+        title__in=current_titles
+    ).delete()
 
 
 # Синхронизация активности из Витрины
@@ -519,15 +409,13 @@ def run_full_vitrina_sync(client) -> dict:
     
     results = {
         'projects': None,
-        'teams': None,
-        'members': None,
         'activities': None,
     }
     
-    # 1. Синхронизация проектов
+    # 1. Синхронизация проектов (с чекпоинтами и ролями)
     sync_run_projects = start_sync_run(source, 'sync_vitrina_projects')
     try:
-        projects = client.get_projects()
+        projects = client.get_projects(limit=100, offset=0)
         log_raw_response(
             source=source, endpoint='/projects', sync_run=sync_run_projects,
             status_code=200, response_body={'count': len(projects)}
@@ -546,53 +434,7 @@ def run_full_vitrina_sync(client) -> dict:
         sync_run_projects.save()
         logger.error(f"Vitrina projects sync unexpected error: {e}")
     
-    # 2. Синхронизация команд
-    sync_run_teams = start_sync_run(source, 'sync_vitrina_teams')
-    try:
-        teams = client.get_teams()
-        log_raw_response(
-            source=source, endpoint='/teams', sync_run=sync_run_teams,
-            status_code=200, response_body={'count': len(teams)}
-        )
-        results['teams'] = sync_vitrina_teams(teams, sync_run_teams)
-    except VitrinaApiError as e:
-        sync_run_teams.status = 'failed'
-        sync_run_teams.error_message = str(e)
-        sync_run_teams.finished_at = timezone.now()
-        sync_run_teams.save()
-        logger.error(f"Vitrina teams sync failed: {e}")
-    except Exception as e:
-        sync_run_teams.status = 'failed'
-        sync_run_teams.error_message = str(e)
-        sync_run_teams.finished_at = timezone.now()
-        sync_run_teams.save()
-        logger.error(f"Vitrina teams sync unexpected error: {e}")
-    
-    # 3. Синхронизация участников команд
-    sync_run_members = start_sync_run(source, 'sync_team_members')
-    try:
-        # Получаем всех участников всех команд
-        all_members = []
-        for team in Teams.objects.all():
-            try:
-                members = client.get_team_members(str(team.team_id))
-                all_members.extend(members)
-            except VitrinaApiError:
-                pass  # Пропускаем ошибки отдельных команд
-        
-        log_raw_response(
-            source=source, endpoint='/teams/{id}/members', sync_run=sync_run_members,
-            status_code=200, response_body={'count': len(all_members)}
-        )
-        results['members'] = sync_team_members(all_members, sync_run_members)
-    except Exception as e:
-        sync_run_members.status = 'failed'
-        sync_run_members.error_message = str(e)
-        sync_run_members.finished_at = timezone.now()
-        sync_run_members.save()
-        logger.error(f"Vitrina team members sync failed: {e}")
-    
-    # 4. Синхронизация активностей
+    # 2. Синхронизация активностей (если эндпоинт доступен)
     sync_run_activities = start_sync_run(source, 'sync_vitrina_activities')
     try:
         activities = client.get_activities()
@@ -600,18 +442,17 @@ def run_full_vitrina_sync(client) -> dict:
             source=source, endpoint='/activities', sync_run=sync_run_activities,
             status_code=200, response_body={'count': len(activities)}
         )
-        results['activities'] = sync_vitrina_activities(activities, sync_run_activities)
-    except VitrinaApiError as e:
-        sync_run_activities.status = 'failed'
-        sync_run_activities.error_message = str(e)
-        sync_run_activities.finished_at = timezone.now()
-        sync_run_activities.save()
-        logger.error(f"Vitrina activities sync failed: {e}")
+        if activities:
+            results['activities'] = sync_vitrina_activities(activities, sync_run_activities)
+        else:
+            sync_run_activities.status = 'success'
+            sync_run_activities.finished_at = timezone.now()
+            sync_run_activities.save()
     except Exception as e:
         sync_run_activities.status = 'failed'
         sync_run_activities.error_message = str(e)
         sync_run_activities.finished_at = timezone.now()
         sync_run_activities.save()
-        logger.error(f"Vitrina activities sync unexpected error: {e}")
+        logger.error(f"Vitrina activities sync failed: {e}")
     
     return results

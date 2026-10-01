@@ -1,24 +1,26 @@
 from .base_client import BaseApiClient
+from .factory import get_tpu_client, get_vitrina_client
 from .tpu import TPUClient, TPUStudentDTO, TPUApiError
 from .vitrina import (
     VitrinaClient,
     VitrinaProjectDTO,
-    VitrinaTeamDTO,
+    VitrinaCheckpointDTO,
+    VitrinaRoleDTO,
     VitrinaActivityDTO,
     VitrinaApiError,
 )
-from .factory import get_tpu_client, get_vitrina_client
 
 __all__ = [
     'BaseApiClient',
+    'get_tpu_client',
+    'get_vitrina_client',
     'TPUClient',
     'TPUStudentDTO',
     'TPUApiError',
     'VitrinaClient',
     'VitrinaProjectDTO',
-    'VitrinaTeamDTO',
+    'VitrinaCheckpointDTO',
+    'VitrinaRoleDTO',
     'VitrinaActivityDTO',
     'VitrinaApiError',
-    'get_tpu_client',
-    'get_vitrina_client',
 ]
