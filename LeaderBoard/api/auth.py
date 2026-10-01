@@ -155,7 +155,9 @@ class RefreshTokenView(APIView):
 class MyRatingView(APIView):
     """
     GET /api/auth/me/rating/?period=all
-    Возвращает личный рейтинг текущего студента за указанный период
+    Возвращает личный рейтинг текущего студента за указанный период.
+    
+    Оптимизирован: позиция считается через SQL, а не через загрузку всех студентов в память.
     """
     permission_classes = [IsAuthenticated]
 
@@ -176,7 +178,7 @@ class MyRatingView(APIView):
             )
 
         from LeaderBoard.services.rating_service import (
-            calculate_rating_score, PERIOD_RATING_FIELD, PERIOD_HOURS_FIELD
+            PERIOD_RATING_FIELD, PERIOD_HOURS_FIELD
         )
 
         # Получаем рейтинг за выбранный период
@@ -185,11 +187,11 @@ class MyRatingView(APIView):
         my_rating = getattr(student, rating_field)
         my_hours = getattr(student, hours_field)
 
-        # Считаем позицию среди всех студентов
+        # Оптимизация: считаем позицию через SQL
         all_students = Students.objects.filter(history_work_all__gt=0)
         total = all_students.count()
 
-        # Позиция: сколько студентов с рейтингом выше
+        # Позиция: сколько студентов с рейтингом выше + 1
         position = all_students.filter(**{f'{rating_field}__gt': my_rating}).count() + 1
 
         return Response({

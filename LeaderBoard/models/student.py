@@ -42,11 +42,19 @@ class Students(models.Model):
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True,
-        related_name='student_profil'
+        related_name='student_profile'
     )
 
     class Meta:
         db_table = 'students'
+        indexes = [
+            models.Index(fields=['student_group', '-rating_score']),
+            models.Index(fields=['study_year', '-rating_score']),
+            models.Index(fields=['faculty', '-rating_score']),
+            models.Index(fields=['-rating_score_week']),
+            models.Index(fields=['-rating_score_month']),
+            models.Index(fields=['-rating_score_sem']),
+        ]
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} ({self.login})"

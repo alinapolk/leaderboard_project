@@ -1,6 +1,5 @@
 from django.db.models import QuerySet
 from LeaderBoard.models import Students, Projects
-from LeaderBoard.services.rating_service import PERIOD_RATING_FIELD
 
 
 def get_leaderboard_students(search: str = None, period: str = 'all') -> QuerySet[Students]:
@@ -10,6 +9,7 @@ def get_leaderboard_students(search: str = None, period: str = 'all') -> QuerySe
     Отсортировано по рейтингу за указанный период, ограничено топ-50.
     """
     from .students import get_students_with_activity, search_students_by_name
+    from LeaderBoard.services.rating_service import PERIOD_RATING_FIELD
 
     queryset = get_students_with_activity()
 
@@ -28,6 +28,12 @@ def get_leaderboard_students(search: str = None, period: str = 'all') -> QuerySe
 
 
 def get_leaderboard_projects() -> QuerySet[Projects]:
-    """Возвращает проекты для лидерборда"""
+    """Возвращает проекты для лидерборда с оптимизацией"""
     from .projects import get_all_projects
-    return get_all_projects()
+    
+    queryset = get_all_projects()
+    
+    # Оптимизация: выбираем связанные команды
+    queryset = queryset.prefetch_related('teams_set__student_teams_set')
+    
+    return queryset.order_by('-is_promoted', 'project_name')
