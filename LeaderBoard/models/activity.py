@@ -20,6 +20,12 @@ class Student_Teams(models.Model):
         db_column='student_login'
     )
     rol = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    stack = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Профессиональная роль: Frontend, Backend, Mobile, ML-инженер, QA, Аналитик и т.д."
+    )
     joined_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -30,6 +36,9 @@ class Student_Teams(models.Model):
                 name='unique_team_student'
             )
         ]
+    
+    def __str__(self):
+        return f"{self.student} в {self.team} ({self.stack or self.rol})"
 
 
 class Student_Activity(models.Model):

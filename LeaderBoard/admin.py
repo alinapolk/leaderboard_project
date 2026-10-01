@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Students, Projects, Teams,
+    Students, Projects, Teams, ProjectCheckpoint,
     Student_Teams, Student_Activity, Student_Medals,
     UserConsent, RatingSnapshot, ExternalSource, SyncRun, SyncError, RawApiLog
 )
@@ -91,14 +91,28 @@ class RatingSnapshotAdmin(admin.ModelAdmin):
 # ПРОЕКТЫ
 @admin.register(Projects)
 class ProjectsAdmin(admin.ModelAdmin):
-    list_display = ('id_project', 'project_name', 'teams_count')
-    search_fields = ('project_name',)
+    list_display = (
+        'id_project', 'project_name', 'external_id', 'project_type',
+        'status', 'category', 'is_promoted', 'teams_count', 'checkpoints_count'
+    )
+    list_filter = ('project_type', 'status', 'category', 'is_promoted')
+    search_fields = ('project_name', 'external_id', 'description')
 
     def teams_count(self, obj):
         return obj.teams_set.count()
-
     teams_count.short_description = 'Команд'
 
+    def checkpoints_count(self, obj):
+        return obj.checkpoints.count()
+    checkpoints_count.short_description = 'Дедлайнов'
+
+@admin.register(ProjectCheckpoint)
+class ProjectCheckpointAdmin(admin.ModelAdmin):
+    list_display = ('project', 'title', 'deadline', 'is_custom')
+    list_filter = ('is_custom', 'deadline')
+    search_fields = ('project__project_name', 'title')
+    date_hierarchy = 'deadline'
+    ordering = ('deadline',)
 
 # КОМАНДЫ
 @admin.register(Teams)
