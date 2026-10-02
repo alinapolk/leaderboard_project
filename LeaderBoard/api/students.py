@@ -60,7 +60,7 @@ class StudentMedalsView(generics.ListAPIView):
     def get_queryset(self):
         login = self.kwargs['login']
         return Student_Medals.objects.filter(student_id=login)
-    
+
 
 class StudentRatingHistoryView(APIView):
     """

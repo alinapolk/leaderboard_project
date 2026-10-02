@@ -13,9 +13,17 @@ class Projects(models.Model):
     partner = models.CharField(max_length=200, blank=True)
     is_promoted = models.BooleanField(default=False)
     info_akadem = models.TextField(blank=True, null=True) # Информация об академах/переводах для анализа отсева
-
+    
     class Meta:
         db_table = 'projects'
+        indexes = [
+            models.Index(fields=['project_type', 'status']),
+            models.Index(fields=['category']),
+            models.Index(fields=['-is_promoted', 'project_name']),
+        ]
+
+    def __str__(self):
+        return f"{self.project_name} ({self.external_id or self.id_project})"
 
 
 class ProjectCheckpoint(models.Model):
