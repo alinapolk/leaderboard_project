@@ -1,0 +1,101 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: leaderboard_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-leaderBoard}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-leaderBoard}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
+  redis:
+    image: redis:7-alpine
+    container_name: leaderboard_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: leaderboard_web
+    restart: unless-stopped
+    env_file:
+      - ../.env.docker
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    ports:
+      - "8000:8000"
+    volumes:
+      - ..:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    
+  worker:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: leaderboard_worker
+    restart: unless-stopped
+    env_file:
+      - ../.env.docker
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    command: celery -A LeaderBoardTPU_Project worker --loglevel=info
+    volumes:
+      - ..:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  beat:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: leaderboard_beat
+    restart: unless-stopped
+    env_file:
+      - ../.env.docker
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+    command: celery -A LeaderBoardTPU_Project beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - ..:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
