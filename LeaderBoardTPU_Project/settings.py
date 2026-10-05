@@ -172,3 +172,6 @@ VITRINA_CLIENT_ID = os.getenv('VITRINA_CLIENT_ID', '')
 VITRINA_CLIENT_SECRET = os.getenv('VITRINA_CLIENT_SECRET', '')
 VITRINA_API_MOCK_MODE = os.getenv('VITRINA_API_MOCK_MODE', 'True') == 'True'
 VITRINA_API_MOCK_PATH = BASE_DIR / 'mocks' / 'vitrina'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
