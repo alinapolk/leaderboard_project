@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from drf_spectacular.utils import OpenApiExample, OpenApiParameter, OpenApiResponse, extend_schema
 
 from django.contrib.auth.models import User
 
@@ -27,6 +28,12 @@ class LoginView(APIView):
     """POST /api/auth/login/ - вход"""
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        tags=['auth'], summary='Войти',
+        description='Проверяет учётные данные и возвращает JWT-токены. Если согласие не дано, возвращает временный токен для шага согласия.',
+        request=LoginSerializer,
+        responses={200: OpenApiResponse(response=dict, examples=[OpenApiExample('Успешный вход', value={'need_consent': False, 'access': 'eyJ...', 'refresh': 'eyJ...', 'user': {'username': 'student1', 'role': 'student'}})]), 401: OpenApiResponse(response=dict, examples=[OpenApiExample('Ошибка входа', value={'error': 'Неверный логин или пароль'})])},
+    )
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if not serializer.is_valid():
@@ -67,6 +74,12 @@ class ConsentView(APIView):
     """POST - /api/auth/consent/ - согласие"""
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        tags=['auth'], summary='Сохранить согласие на обработку данных',
+        description='Принимает решение о согласии и временный JWT, выданный при входе.',
+        request=ConsentSerializer,
+        responses={200: OpenApiResponse(response=dict, examples=[OpenApiExample('Согласие принято', value={'message': 'Согласие сохранено', 'access': 'eyJ...', 'refresh': 'eyJ...', 'user': {'username': 'student1', 'role': 'student'}})]), 400: OpenApiResponse(response=dict, examples=[OpenApiExample('Токен недействителен', value={'error': 'Недействительный токен'})])},
+    )
     def post(self, request):
         serializer = ConsentSerializer(data=request.data)
         if not serializer.is_valid():
@@ -109,6 +122,11 @@ class MeView(APIView):
     """GET /api/auth/me/ - возвращает данные текущего пользователя"""
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        tags=['auth'], summary='Получить текущего пользователя',
+        description='Возвращает профиль пользователя, связанный профиль студента и статус согласия. Требует JWT.',
+        responses={200: OpenApiResponse(response=dict, examples=[OpenApiExample('Профиль', value={'user': {'username': 'student1', 'role': 'student'}, 'student': {'login': 'student1', 'full_name': 'Иванов Иван'}, 'consent_given': True})])},
+    )
     def get(self, request):
         user = request.user
         return Response(MeSerializer(user).data)
@@ -118,6 +136,7 @@ class LogoutView(APIView):
     """POST /api/auth/logout/ - блокирует refresh token"""
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(tags=['auth'], summary='Выйти', description='Блокирует переданный refresh token.', request=dict, responses={200: OpenApiResponse(response=dict, examples=[OpenApiExample('Выход выполнен', value={'message': 'Выход выполнен'})])})
     def post(self, request):
         refresh_token = request.data.get('refresh')
         if refresh_token:
@@ -133,6 +152,7 @@ class RefreshTokenView(APIView):
     """POST /api/auth/refresh/ - возвращает новую пару токенов"""
     permission_classes = [AllowAny]
 
+    @extend_schema(tags=['auth'], summary='Обновить токены', description='Принимает refresh token и возвращает новую пару JWT.', request=dict, responses={200: OpenApiResponse(response=dict, examples=[OpenApiExample('Новые токены', value={'access': 'eyJ...', 'refresh': 'eyJ...'})])})
     def post(self, request):
         refresh_token = request.data.get('refresh')
         if not refresh_token:
@@ -161,6 +181,12 @@ class MyRatingView(APIView):
     """
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        tags=['auth'], summary='Получить свой рейтинг',
+        description='Возвращает позицию текущего студента и значения рейтинга за период. Неизвестный период заменяется на all.',
+        parameters=[OpenApiParameter('period', str, description='Период: week, month, sem или all.', enum=['week', 'month', 'sem', 'all'], required=False)],
+        responses={200: OpenApiResponse(response=dict, examples=[OpenApiExample('Рейтинг', value={'period': 'all', 'position': 1, 'total_students': 50, 'rating_score': 120.5, 'hours': 40.0, 'student': {'login': 'student1', 'full_name': 'Иванов Иван'}})]), 404: OpenApiResponse(response=dict, examples=[OpenApiExample('Студент не найден', value={'error': 'Студент не найден'})])},
+    )
     def get(self, request):
         user = request.user
         period = request.query_params.get('period', 'all')

@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'LeaderBoard.apps.LeaderboardConfig',
+    
     'rest_framework',
+    'drf_spectacular',
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -131,6 +133,23 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
     # Добавляем обработчик ошибок
     'EXCEPTION_HANDLER': 'LeaderBoard.common.exceptions.custom_exception_handler',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'LeaderBoard TPU API',
+    'DESCRIPTION': 'API системы рейтинга студентов ИШИТР ТПУ',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'TAGS': [
+        {'name': 'auth', 'description': 'Аутентификация и профиль пользователя'},
+        {'name': 'students', 'description': 'Студенты'},
+        {'name': 'projects', 'description': 'Проекты'},
+        {'name': 'teams', 'description': 'Команды'},
+        {'name': 'leaderboard', 'description': 'Рейтинги'},
+        {'name': 'activity', 'description': 'Активность'},
+    ],
 }
 
 

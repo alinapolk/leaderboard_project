@@ -2,6 +2,7 @@ asgiref==3.11.1
 Django==5.1.14
 django-cors-headers==4.9.0
 djangorestframework==3.17.1
+drf-spectacular==0.30.0
 djangorestframework_simplejwt==5.5.1
 django-celery-beat==2.8.1
 psycopg2-binary==2.9.12
