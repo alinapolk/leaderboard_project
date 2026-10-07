@@ -223,8 +223,6 @@ def sync_vitrina_projects(projects_dto: List[VitrinaProjectDTO], sync_run: SyncR
             
             # Синхронизируем checkpoints
             _sync_project_checkpoints(project, dto.checkpoints)
-            
-            # TODO: Синхронизация ролей (после маппинга ownerId -> login студента)
         
         except Exception as e:
             context.add_error(
@@ -264,6 +262,133 @@ def _sync_project_checkpoints(project, checkpoints_dto) -> None:
         title__in=current_titles
     ).delete()
 
+
+# TODO: МАППИНГ ownerId → login (ВРЕМЕННОЕ РЕШЕНИЕ)
+def map_owner_id_to_login(owner_id: int) -> Optional[str]:
+    """
+    !ЗАГЛУШКА: Маппит ownerId из API Витрины в login студента.
+    !
+    !Временное решение: ищем студента по полю someone_id.
+    !В будущем нужно уточнить у команды Витрины правильный маппинг.
+    !
+    !Args:
+    !    owner_id: Числовой ID пользователя из API Витрины
+    !    
+    !Returns:
+    !    login студента или None, если не найден
+    """
+    if not owner_id:
+        return None
+    
+    student = Students.objects.filter(someone_id=str(owner_id)).first()
+    
+    if student:
+        logger.info(f"Mapped ownerId {owner_id} -> {student.login}")
+        return student.login
+    
+    logger.warning(f"Student with ownerId={owner_id} not found in database")
+    return None
+
+# Синхронизация участников команд из витрины (через проекты)
+@transaction.atomic
+def sync_team_members_from_projects(projects_dto: list, sync_run: SyncRun) -> dict:
+    """
+    Синхронизирует участников команд на основе данных из проектов.
+    
+    Использует заглушку map_owner_id_to_login для маппинга ownerId → login.
+    Создаёт команды автоматически на основе ролей в проектах.
+    """
+    context = SyncContext(sync_run)
+    total_members = 0
+    
+    for project_dto in projects_dto:
+        try:
+            # Находим проект в БД по external_id
+            project = Projects.objects.filter(external_id=project_dto.external_id).first()
+            if not project:
+                logger.warning(f"Project {project_dto.external_id} not found in DB, skipping")
+                continue
+            
+            # Получаем или создаём команду проекта
+            team, _ = Teams.objects.get_or_create(
+                project=project,
+                defaults={
+                    'expert_score': '',
+                    'period_start': None,
+                    'period_end': None,
+                }
+            )
+            
+            # Обрабатываем роли из проекта
+            for role_dto in project_dto.roles:
+                for owner_id in role_dto.places:
+                    total_members += 1
+                    
+                    # Маппим ownerId → login через заглушку
+                    student_login = map_owner_id_to_login(owner_id)
+                    
+                    if not student_login:
+                        context.add_error(
+                            external_id=str(owner_id),
+                            error_message=f"Student with ownerId={owner_id} not found",
+                            payload={
+                                'owner_id': owner_id,
+                                'role': role_dto.role_name,
+                                'project': project_dto.external_id,
+                            },
+                        )
+                        continue
+                    
+                    # Находим студента
+                    student = Students.objects.filter(login=student_login).first()
+                    if not student:
+                        context.add_error(
+                            external_id=student_login,
+                            error_message=f"Student {student_login} not found in DB",
+                            payload={'owner_id': owner_id},
+                        )
+                        continue
+                    
+                    # Создаём связь студент-команда
+                    try:
+                        member, created = Student_Teams.objects.update_or_create(
+                            student=student,
+                            team=team,
+                            defaults={
+                                'rol': 'Студент',
+                                'stack': role_dto.role_name,  # Frontend, Backend, etc.
+                            }
+                        )
+                        
+                        if created:
+                            context.add_created()
+                        else:
+                            context.add_updated()
+                    
+                    except Exception as e:
+                        context.add_error(
+                            external_id=student_login,
+                            error_message=str(e),
+                            payload={'owner_id': owner_id, 'team_id': team.team_id},
+                            error_type=type(e).__name__,
+                        )
+        
+        except Exception as e:
+            context.add_error(
+                external_id=project_dto.external_id,
+                error_message=str(e),
+                payload={'project': project_dto.external_id},
+                error_type=type(e).__name__,
+            )
+    
+    context.finalize(received=total_members)
+    
+    return {
+        'received': total_members,
+        'created': context.created,
+        'updated': context.updated,
+        'failed': context.failed,
+    }
 
 # Синхронизация активности из Витрины
 @transaction.atomic
@@ -404,23 +529,32 @@ def run_full_tpu_sync(client) -> dict:
 
 
 def run_full_vitrina_sync(client) -> dict:
-    """Полный цикл синхронизации Витрины"""
+    """Полный цикл синхронизации Витрины (с пагинацией и участниками команд)"""
     source = get_or_create_source('VITRINA', 'API Витрины', client.base_url)
     
     results = {
         'projects': None,
+        'team_members': None,
         'activities': None,
     }
     
-    # 1. Синхронизация проектов (с чекпоинтами и ролями)
+    # 1. Синхронизация проектов (все через пагинацию)
     sync_run_projects = start_sync_run(source, 'sync_vitrina_projects')
+    projects = []
     try:
-        projects = client.get_projects(limit=100, offset=0)
+        projects = client.get_all_projects(page_size=20, status=None)
+        
         log_raw_response(
-            source=source, endpoint='/projects', sync_run=sync_run_projects,
-            status_code=200, response_body={'count': len(projects)}
+            source=source,
+            endpoint='/projects',
+            sync_run=sync_run_projects,
+            status_code=200,
+            response_body={'count': len(projects)}
         )
+        
         results['projects'] = sync_vitrina_projects(projects, sync_run_projects)
+        logger.info(f"Projects sync: {results['projects']}")
+        
     except VitrinaApiError as e:
         sync_run_projects.status = 'failed'
         sync_run_projects.error_message = str(e)
@@ -434,14 +568,31 @@ def run_full_vitrina_sync(client) -> dict:
         sync_run_projects.save()
         logger.error(f"Vitrina projects sync unexpected error: {e}")
     
-    # 2. Синхронизация активностей (если эндпоинт доступен)
+    # 2. Синхронизация участников команд (только если проекты загружены)
+    if projects:
+        sync_run_members = start_sync_run(source, 'sync_team_members')
+        try:
+            results['team_members'] = sync_team_members_from_projects(projects, sync_run_members)
+            logger.info(f"Team members sync: {results['team_members']}")
+        except Exception as e:
+            sync_run_members.status = 'failed'
+            sync_run_members.error_message = str(e)
+            sync_run_members.finished_at = timezone.now()
+            sync_run_members.save()
+            logger.error(f"Team members sync failed: {e}")
+    
+    # TODO 3. Синхронизация активностей (заглушка)
     sync_run_activities = start_sync_run(source, 'sync_vitrina_activities')
     try:
         activities = client.get_activities()
         log_raw_response(
-            source=source, endpoint='/activities', sync_run=sync_run_activities,
-            status_code=200, response_body={'count': len(activities)}
+            source=source,
+            endpoint='/activities',
+            sync_run=sync_run_activities,
+            status_code=200,
+            response_body={'count': len(activities)}
         )
+        
         if activities:
             results['activities'] = sync_vitrina_activities(activities, sync_run_activities)
         else:

@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List, Any, Optional
 from decimal import Decimal, InvalidOperation
+import logging
 
 from .dto import (
     VitrinaActivityDTO,
@@ -9,6 +10,8 @@ from .dto import (
     VitrinaRoleDTO,
 )
 
+
+logger = logging.getLogger(__name__)
 
 def _strip_keys(data: Any) -> Any:
     """
@@ -58,8 +61,7 @@ def _map_checkpoint(item: dict, is_custom: bool = False) -> Optional[VitrinaChec
             is_custom=is_custom,
         )
     except Exception as e:
-        import logging
-        logging.getLogger(__name__).warning(f"Failed to map checkpoint: {item} — {e}")
+        logger.warning(f"Failed to map checkpoint: {item} — {e}")
         return None
 
 
@@ -78,8 +80,7 @@ def _map_role(item: dict) -> Optional[VitrinaRoleDTO]:
             applications_count=int(_get(item, 'applicationsCount', 0) or 0),
         )
     except Exception as e:
-        import logging
-        logging.getLogger(__name__).warning(f"Failed to map role: {item} — {e}")
+        logger.warning(f"Failed to map role: {item} — {e}")
         return None
 
 
@@ -134,7 +135,9 @@ def map_projects(data: Any) -> List[VitrinaProjectDTO]:
             
             # Repository
             repositories = _get(item, 'repository', []) or []
-            repository_url = repositories[0].get('url') if repositories else None
+            repository_url = None
+            if repositories and isinstance(repositories[0], dict):
+                repository_url = repositories[0].get('url')
             
             dto = VitrinaProjectDTO(
                 external_id=str(_get(item, 'id', '')).strip(),
@@ -156,8 +159,7 @@ def map_projects(data: Any) -> List[VitrinaProjectDTO]:
                 result.append(dto)
         
         except Exception as e:
-            import logging
-            logging.getLogger(__name__).warning(f"Failed to map project: {item} — {e}")
+            logger.warning(f"Failed to map project: {item} — {e}")
     
     return result
 
@@ -203,3 +205,38 @@ def map_activities(data: Any) -> List['VitrinaActivityDTO']:
             logging.getLogger(__name__).warning(f"Failed to map activity: {item} — {e}")
     
     return result
+
+# ИЗВЛЕЧЕНИЕ ОБЩИХ ДАННЫХ ИЗ ОТВЕТА (для пагинации)
+def get_total_from_response(data: Any) -> int:
+    """
+    Извлекает общее количество проектов из ответа.
+    Используется для пагинации в get_all_projects().
+    
+    Формат ответа:
+    {
+        "hits": [...],
+        "total": 3,
+        "offset": 0,
+        "limit": 20
+    }
+    """
+    data = _strip_keys(data)
+    if isinstance(data, dict):
+        return int(data.get('total', 0) or 0)
+    return 0
+
+
+def get_offset_from_response(data: Any) -> int:
+    """Извлекает текущее смещение из ответа"""
+    data = _strip_keys(data)
+    if isinstance(data, dict):
+        return int(data.get('offset', 0) or 0)
+    return 0
+
+
+def get_limit_from_response(data: Any) -> int:
+    """Извлекает размер страницы из ответа"""
+    data = _strip_keys(data)
+    if isinstance(data, dict):
+        return int(data.get('limit', 0) or 0)
+    return 0

@@ -23,9 +23,11 @@ from .auth_service import (
 from .sync_service import (
     get_or_create_source,
     start_sync_run,
+    map_owner_id_to_login,
     log_raw_response,
     sync_tpu_students,
     sync_vitrina_projects,
+    sync_team_members_from_projects,
     sync_vitrina_activities,
     run_full_tpu_sync,
     run_full_vitrina_sync,
@@ -58,4 +60,6 @@ __all__ = [
     'sync_vitrina_activities',
     'run_full_tpu_sync',
     'run_full_vitrina_sync',
+    'map_owner_id_to_login',
+    'sync_team_members_from_projects',
 ]

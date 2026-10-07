@@ -1,10 +1,14 @@
 import logging
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from ..base_client import BaseApiClient
 from .dto import VitrinaProjectDTO, VitrinaActivityDTO
-from .mapper import map_projects, map_activities
+from .mapper import (
+    map_projects,
+    map_activities,
+    get_total_from_response
+)
 from .exceptions import VitrinaApiError
 
 
@@ -37,11 +41,88 @@ class VitrinaClient(BaseApiClient):
     def _build_error(self, message: str, original_error=None):
         return VitrinaApiError(f"{message}: {original_error}")
 
-    def get_projects(self, limit: int = 20, offset: int = 0) -> List[VitrinaProjectDTO]:
-        """Получает список проектов с пагинацией"""
-        logger.info(f"Fetching projects from Vitrina API (limit={limit}, offset={offset})")
-        data = self.get('/projects', params={'limit': limit, 'offset': offset})
-        return map_projects(data)
+    def get_projects(
+        self,
+        q: str = "",
+        status: str = None,
+        sort: str = "created_desc",
+        limit: int = 20,
+        offset: int = 0,
+    ) -> Tuple[List[VitrinaProjectDTO], int]:
+        """
+        Получает одну страницу проектов с query-параметрами.
+        
+        Реальный эндпоинт:
+        /projects?q=&status=Recruiting&sort=created_desc&limit=20&offset=0
+        """
+        params = {
+            'q': q,
+            'sort': sort,
+            'limit': limit,
+            'offset': offset,
+        }
+        if status:
+            params['status'] = status
+
+        logger.info(f"Fetching projects: {params}")
+        data = self.get('/projects', params=params)
+
+        projects = map_projects(data)
+        total = get_total_from_response(data)
+
+        logger.info(f"Fetched {len(projects)} projects, total={total}")
+        return projects, total
+
+            
+    def get_all_projects(
+        self,
+        page_size: int = 20,
+        status: str = None,
+        sort: str = "created_desc",
+        max_pages: int = 100,
+    ) -> List[VitrinaProjectDTO]:
+        """
+        Получает ВСЕ проекты, итерируясь по страницам.
+        Используется для полной синхронизации.
+        
+        В мок-режиме сразу возвращает все проекты из файла,
+        без пагинации (мок-файл уже содержит полный ответ).
+        """
+        # В мок-режиме файл содержит все проекты сразу
+        if self.mock_mode:
+            logger.info("Mock mode: fetching all projects from mock file")
+            data = self.get('/projects')
+            return map_projects(data)
+
+        all_projects = []
+        offset = 0
+        total = None
+        pages_fetched = 0
+
+        while pages_fetched < max_pages:
+            batch, batch_total = self.get_projects(
+                status=status,
+                sort=sort,
+                limit=page_size,
+                offset=offset,
+            )
+
+            if total is None:
+                total = batch_total
+                logger.info(f"Total projects to fetch: {total}")
+
+            all_projects.extend(batch)
+            pages_fetched += 1
+            logger.info(f"Fetched {len(all_projects)}/{total} projects (page {pages_fetched})")
+
+            # Условия остановки
+            if len(all_projects) >= total or not batch:
+                break
+
+            offset += page_size
+
+        logger.info(f"Total projects fetched: {len(all_projects)}")
+        return all_projects
 
     def get_activities(self) -> List[VitrinaActivityDTO]:
         """
