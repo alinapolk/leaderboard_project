@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from django.db import transaction
 from django.utils import timezone
+from django.core.cache import cache
 
 from LeaderBoard.models import (
     Students, Projects, Teams, Student_Teams, Student_Activity,
@@ -263,31 +264,140 @@ def _sync_project_checkpoints(project, checkpoints_dto) -> None:
     ).delete()
 
 
-# TODO: МАППИНГ ownerId → login (ВРЕМЕННОЕ РЕШЕНИЕ)
-def map_owner_id_to_login(owner_id: int) -> Optional[str]:
+# КЕШ И МАППИНГ tpu_user_id → login (через Redis + API ТПУ)
+
+# Sentinel для кеширования None (чтобы не долбить API по несуществующим ID)
+_SENTINEL_NONE = '__NONE__'
+
+
+def _tpu_user_cache_key(tpu_user_id: int) -> str:
+    """Формирует ключ кеша для tpu_user_id"""
+    from django.conf import settings
+    prefix = getattr(settings, 'TPU_USER_CACHE_PREFIX', 'tpu_user_to_login')
+    return f'{prefix}:{tpu_user_id}'
+
+
+def _cache_result(cache_key: str, value: Optional[str], use_cache: bool) -> None:
+    """Сохраняет результат в Redis кеш с TTL"""
+    if not use_cache:
+        return
+    
+    from django.conf import settings
+    ttl = getattr(settings, 'TPU_USER_CACHE_TTL', 60 * 60 * 24)
+    
+    # Кешируем None через sentinel, чтобы не долбить API на несуществующих tpu_user_id
+    if value is None:
+        cache.set(cache_key, _SENTINEL_NONE, ttl)
+    else:
+        cache.set(cache_key, value, ttl)
+
+
+def map_tpu_user_id_to_login(tpu_user_id: int, use_cache: bool = True) -> Optional[str]:
     """
-    !ЗАГЛУШКА: Маппит ownerId из API Витрины в login студента.
-    !
-    !Временное решение: ищем студента по полю someone_id.
-    !В будущем нужно уточнить у команды Витрины правильный маппинг.
-    !
-    !Args:
-    !    owner_id: Числовой ID пользователя из API Витрины
-    !    
-    !Returns:
-    !    login студента или None, если не найден
+    Маппит tpu_user_id в login студента через Redis кеш.
+    
+    Используется для получения login студента по его ID в системе ТПУ.
+    Данные берутся из поля role.places в проектах Витрины (участники команды).
+    
+    Стратегия:
+    1. Проверяем Redis кеш (БД 1, TTL 24 часа)
+    2. Ищем студента по someone_id в БД (быстрый способ)
+    3. Если не найден — запрашиваем профиль из API ТПУ /users/{tpu_user_id}
+       и создаём/обновляем студента в БД
+    4. Сохраняем результат в кеш
+    
+    Args:
+        tpu_user_id: ID пользователя в системе ТПУ (из role.places)
+        use_cache: Использовать Redis кеш
+
+    Returns:
+        login студента или None
     """
-    if not owner_id:
+    if not tpu_user_id:
         return None
-    
-    student = Students.objects.filter(someone_id=str(owner_id)).first()
-    
+
+    cache_key = _tpu_user_cache_key(tpu_user_id)
+
+    # 1. Проверяем кеш
+    if use_cache:
+        cached = cache.get(cache_key)
+        if cached is not None:
+            if cached == _SENTINEL_NONE:
+                logger.debug(f"tpu_user_id {tpu_user_id} -> None (from cache)")
+                return None
+            logger.debug(f"Mapped tpu_user_id {tpu_user_id} -> {cached} (from cache)")
+            return cached
+
+    # 2. Быстрый поиск в БД по someone_id
+    student = Students.objects.filter(someone_id=str(tpu_user_id)).first()
     if student:
-        logger.info(f"Mapped ownerId {owner_id} -> {student.login}")
+        logger.debug(f"Mapped tpu_user_id {tpu_user_id} -> {student.login} (from DB)")
+        _cache_result(cache_key, student.login, use_cache)
         return student.login
+
+    # 3. Запрос к API ТПУ
+    logger.info(f"Student with tpu_user_id={tpu_user_id} not in DB, fetching from TPU API")
+    from LeaderBoard.integrations.factory import get_tpu_client
+
+    try:
+        client = get_tpu_client()
+        user_dto = client.get_user_profile(tpu_user_id)
+    except Exception as e:
+        logger.warning(f"Failed to fetch TPU user profile for tpu_user_id={tpu_user_id}: {e}")
+        _cache_result(cache_key, None, use_cache)
+        return None
+
+    if not user_dto:
+        logger.warning(f"TPU user profile not found for tpu_user_id={tpu_user_id}")
+        _cache_result(cache_key, None, use_cache)
+        return None
+
+    # 4. Создаём/обновляем студента на основе данных ТПУ
+    try:
+        student, created = Students.objects.update_or_create(
+            login=user_dto.login,
+            defaults={
+                'someone_id': str(tpu_user_id),
+                'first_name': user_dto.first_name or '',
+                'last_name': user_dto.last_name or '',
+                'patronymic': user_dto.patronym or '',
+                'student_group': user_dto.group or '',
+                'direction_name': user_dto.school or '',
+                'study_year': int(user_dto.course) if user_dto.course and user_dto.course.isdigit() else None,
+                'faculty': user_dto.school or '',
+            }
+        )
+
+        logger.info(
+            f"Mapped tpu_user_id {tpu_user_id} -> {student.login} "
+            f"({'created' if created else 'updated'})"
+        )
+
+        _cache_result(cache_key, student.login, use_cache)
+        return student.login
+
+    except Exception as e:
+        logger.error(f"Failed to create/update student from TPU user profile: {e}")
+        return None
+
+
+def invalidate_tpu_user_cache(tpu_user_id: int) -> None:
+    """Инвалидирует кеш для конкретного tpu_user_id"""
+    cache.delete(_tpu_user_cache_key(tpu_user_id))
+
+
+def clear_tpu_user_cache() -> None:
+    """Очищает весь кеш маппинга tpu_user_id → login"""
+    from django.conf import settings
+    prefix = getattr(settings, 'TPU_USER_CACHE_PREFIX', 'tpu_user_to_login')
+    pattern = f'{prefix}:*'
     
-    logger.warning(f"Student with ownerId={owner_id} not found in database")
-    return None
+    try:
+        cache.delete_pattern(pattern)
+        logger.info(f"Cleared tpu_user_id cache (pattern: {pattern})")
+    except AttributeError:
+        # cache.delete_pattern может не поддерживаться некоторыми бэкендами
+        logger.warning("cache.delete_pattern not available; cache will expire by TTL")
 
 # Синхронизация участников команд из витрины (через проекты)
 @transaction.atomic
@@ -295,8 +405,8 @@ def sync_team_members_from_projects(projects_dto: list, sync_run: SyncRun) -> di
     """
     Синхронизирует участников команд на основе данных из проектов.
     
-    Использует заглушку map_owner_id_to_login для маппинга ownerId → login.
-    Создаёт команды автоматически на основе ролей в проектах.
+    Берёт tpu_user_id ТОЛЬКО из поля role.places (участники команды).
+    Поле project.ownerId (владелец проекта/наставник) пока игнорируем.
     """
     context = SyncContext(sync_run)
     total_members = 0
@@ -319,20 +429,20 @@ def sync_team_members_from_projects(projects_dto: list, sync_run: SyncRun) -> di
                 }
             )
             
-            # Обрабатываем роли из проекта
+            # Обрабатываем роли — берём только places (участники)
             for role_dto in project_dto.roles:
-                for owner_id in role_dto.places:
+                for tpu_user_id in role_dto.places:  # ← только участники
                     total_members += 1
                     
-                    # Маппим ownerId → login через заглушку
-                    student_login = map_owner_id_to_login(owner_id)
+                    # Маппим tpu_user_id → login через Redis кеш
+                    student_login = map_tpu_user_id_to_login(tpu_user_id)
                     
                     if not student_login:
                         context.add_error(
-                            external_id=str(owner_id),
-                            error_message=f"Student with ownerId={owner_id} not found",
+                            external_id=str(tpu_user_id),
+                            error_message=f"Student with tpu_user_id={tpu_user_id} not found",
                             payload={
-                                'owner_id': owner_id,
+                                'tpu_user_id': tpu_user_id,
                                 'role': role_dto.role_name,
                                 'project': project_dto.external_id,
                             },
@@ -345,7 +455,7 @@ def sync_team_members_from_projects(projects_dto: list, sync_run: SyncRun) -> di
                         context.add_error(
                             external_id=student_login,
                             error_message=f"Student {student_login} not found in DB",
-                            payload={'owner_id': owner_id},
+                            payload={'tpu_user_id': tpu_user_id},
                         )
                         continue
                     
@@ -369,7 +479,7 @@ def sync_team_members_from_projects(projects_dto: list, sync_run: SyncRun) -> di
                         context.add_error(
                             external_id=student_login,
                             error_message=str(e),
-                            payload={'owner_id': owner_id, 'team_id': team.team_id},
+                            payload={'tpu_user_id': tpu_user_id, 'team_id': team.team_id},
                             error_type=type(e).__name__,
                         )
         
@@ -475,6 +585,8 @@ def run_full_tpu_sync(client) -> dict:
     2. Сохранить сырой ответ
     3. Синхронизировать студентов
     """
+    # Очищаем кеш tpu_user_id перед каждой синхронизацией
+    clear_tpu_user_cache()
     source = get_or_create_source('TPU', 'API ТПУ', client.base_url)
     sync_run = start_sync_run(source, 'sync_tpu_students')
     

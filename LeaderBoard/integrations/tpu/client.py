@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from ..base_client import BaseApiClient
-from .dto import TPUStudentDTO
+from .dto import TPUStudentDTO, TPUUserDTO
 from .mapper import map_tpu_response_to_students
 from .exceptions import TPUApiError
 
@@ -69,3 +69,24 @@ class TPUClient(BaseApiClient):
         data = self.get(f'/students/{login}')
         students = map_tpu_response_to_students([data])
         return students[0] if students else None
+    
+    def get_user_profile(self, user_id: int) -> Optional[TPUUserDTO]:
+        """
+        Получает профиль пользователя ТПУ по ID.
+
+        Эндпоинт: GET /users/{targetId}
+        Пример: https://tpu.community.design/dev/api/users/283991
+
+        Args:
+            user_id: ID пользователя в системе ТПУ (= places из Витрины)
+
+        Returns:
+            TPUUserDTO или None, если пользователь не найден
+        """
+        logger.info(f"Fetching TPU user profile: user_id={user_id}")
+        try:
+            data = self.get(f'/users/{user_id}')
+            return TPUUserDTO.from_api_response(data)
+        except Exception as e:
+            logger.warning(f"Failed to fetch TPU user profile {user_id}: {e}")
+            return None
