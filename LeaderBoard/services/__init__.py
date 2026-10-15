@@ -27,11 +27,9 @@ from .sync_service import (
     map_tpu_user_id_to_login,
     clear_tpu_user_cache,
     invalidate_tpu_user_cache,
-    sync_tpu_students,
     sync_vitrina_projects,
     sync_team_members_from_projects,
     sync_vitrina_activities,
-    run_full_tpu_sync,
     run_full_vitrina_sync,
 )
 
@@ -63,10 +61,8 @@ __all__ = [
     'map_tpu_user_id_to_login',
     'clear_tpu_user_cache',
     'invalidate_tpu_user_cache',
-    'sync_tpu_students',
     'sync_vitrina_projects',
     'sync_team_members_from_projects',
     'sync_vitrina_activities',
-    'run_full_tpu_sync',
     'run_full_vitrina_sync',
 ]

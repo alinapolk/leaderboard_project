@@ -10,7 +10,7 @@ from LeaderBoard.models import (
     Students, Projects, Teams, Student_Teams, Student_Activity,
     ExternalSource, SyncRun, SyncError, RawApiLog, ProjectCheckpoint
 )
-from LeaderBoard.integrations.tpu import TPUStudentDTO, TPUApiError
+from LeaderBoard.integrations.tpu import TPUApiError
 from LeaderBoard.integrations.vitrina import (
     VitrinaProjectDTO, VitrinaActivityDTO, VitrinaApiError
 )
@@ -121,70 +121,6 @@ def log_raw_response(
         response_body=response_body,
         error_message=error_message,
     )
-
-
-# Синхронизация студентов из ТПУ
-@transaction.atomic
-def sync_tpu_students(students_dto: List[TPUStudentDTO], sync_run: SyncRun) -> dict:
-    """
-    Синхронизирует студентов из API ТПУ.
-    
-    Использует идемпотентный update_or_create по полю login.
-    """
-    context = SyncContext(sync_run)
-    
-    for dto in students_dto:
-        try:
-            if not dto.login:
-                context.add_error(
-                    external_id=None,
-                    error_message="Student login is empty",
-                    payload={'someone_id': dto.someone_id},
-                )
-                continue
-            
-            student, created = Students.objects.update_or_create(
-                login=dto.login,
-                defaults={
-                    'someone_id': dto.someone_id,
-                    'first_name': dto.first_name,
-                    'last_name': dto.last_name,
-                    'patronymic': dto.patronymic or None,
-                    'student_group': dto.student_group,
-                    'direction_name': dto.direction_name,
-                    'study_year': dto.study_year,
-                    'faculty': dto.faculty,
-                    'study_score': Decimal(str(dto.study_score)) if dto.study_score is not None else None,
-                    'debt_count': dto.debt_count,
-                }
-            )
-            
-            if created:
-                context.add_created()
-            else:
-                context.add_updated()
-        
-        except Exception as e:
-            context.add_error(
-                external_id=dto.login,
-                error_message=str(e),
-                payload={
-                    'login': dto.login,
-                    'someone_id': dto.someone_id,
-                },
-                error_type=type(e).__name__,
-            )
-            logger.error(f"Error syncing student {dto.login}: {e}")
-    
-    context.finalize(received=len(students_dto))
-    
-    return {
-        'received': len(students_dto),
-        'created': context.created,
-        'updated': context.updated,
-        'skipped': context.skipped,
-        'failed': context.failed,
-    }
 
 
 # Синхронизация проектов из Витрины
@@ -578,68 +514,6 @@ def sync_vitrina_activities(activities_dto: List[VitrinaActivityDTO], sync_run: 
 
 
 # Высокоуровневые функции
-def run_full_tpu_sync(client) -> dict:
-    """
-    Полный цикл синхронизации ТПУ:
-    1. Получить данные через клиент
-    2. Сохранить сырой ответ
-    3. Синхронизировать студентов
-    """
-    # Очищаем кеш tpu_user_id перед каждой синхронизацией
-    clear_tpu_user_cache()
-    source = get_or_create_source('TPU', 'API ТПУ', client.base_url)
-    sync_run = start_sync_run(source, 'sync_tpu_students')
-    
-    try:
-        # Получаем данные
-        students = client.get_students()
-        
-        # Логируем сырой ответ (для режима моков — это сами DTO)
-        log_raw_response(
-            source=source,
-            endpoint='/students',
-            sync_run=sync_run,
-            status_code=200,
-            response_body={
-                'students_count': len(students),
-                'sample': [
-                    {'login': s.login, 'first_name': s.first_name, 'last_name': s.last_name}
-                    for s in students[:3]
-                ] if students else [],
-            }
-        )
-        
-        # Синхронизируем
-        result = sync_tpu_students(students, sync_run)
-        
-        logger.info(f"TPU sync completed: {result}")
-        return result
-    
-    except TPUApiError as e:
-        sync_run.status = 'failed'
-        sync_run.error_message = str(e)
-        sync_run.finished_at = timezone.now()
-        sync_run.save()
-        
-        log_raw_response(
-            source=source,
-            endpoint='/students',
-            sync_run=sync_run,
-            error_message=str(e),
-        )
-        
-        logger.error(f"TPU sync failed: {e}")
-        raise
-    
-    except Exception as e:
-        sync_run.status = 'failed'
-        sync_run.error_message = str(e)
-        sync_run.finished_at = timezone.now()
-        sync_run.save()
-        logger.error(f"TPU sync unexpected error: {e}")
-        raise
-
-
 def run_full_vitrina_sync(client) -> dict:
     """Полный цикл синхронизации Витрины (с пагинацией и участниками команд)"""
     source = get_or_create_source('VITRINA', 'API Витрины', client.base_url)

@@ -30,6 +30,7 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+login-admin.txt
 
 # Docker env
 .env.docker
