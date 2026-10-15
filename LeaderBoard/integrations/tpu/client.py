@@ -1,10 +1,9 @@
 import logging
+from typing import Optional
 from pathlib import Path
-from typing import List, Optional
 
 from ..base_client import BaseApiClient
-from .dto import TPUStudentDTO
-from .mapper import map_tpu_response_to_students
+from .dto import TPUUserDTO
 from .exceptions import TPUApiError
 
 
@@ -12,24 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class TPUClient(BaseApiClient):
-    """
-    Клиент для работы с API ТПУ.
-    
-    Используется для получения данных о студентах:
-    - ФИО, группа, курс
-    - Успеваемость
-    - Долги
-    
-    Пример использования:
-    
-        client = TPUClient(
-            base_url="https://api.tpu.ru/v1",
-            client_id="xxx",
-            client_secret="yyy",
-        )
-        students = client.get_students()
-    """
-    
+    """Клиент для работы с API ТПУ"""
+
     def __init__(
         self,
         base_url: str,
@@ -49,23 +32,27 @@ class TPUClient(BaseApiClient):
             client_id=client_id,
             client_secret=client_secret,
         )
-    
+
     def _build_error(self, message: str, original_error=None):
         return TPUApiError(f"{message}: {original_error}")
-    
-    def get_students(self) -> List[TPUStudentDTO]:
+
+    def get_user_profile(self, user_id: int) -> Optional[TPUUserDTO]:
         """
-        Получает список всех студентов из API ТПУ.
+        Получает профиль пользователя ТПУ по ID.
         
-        Возвращает список TPUStudentDTO.
+        Эндпоинт: GET /users/{targetId}
+        Пример: https://tpu.community.design/dev/api/users/283991
+        
+        Args:
+            user_id: ID пользователя в системе ТПУ (= tpu_user_id из Витрины)
+            
+        Returns:
+            TPUUserDTO или None, если пользователь не найден
         """
-        logger.info("Fetching students from TPU API")
-        data = self.get('/students')
-        return map_tpu_response_to_students(data)
-    
-    def get_student_by_login(self, login: str) -> Optional[TPUStudentDTO]:
-        """Получает студента по логину"""
-        logger.info(f"Fetching student {login} from TPU API")
-        data = self.get(f'/students/{login}')
-        students = map_tpu_response_to_students([data])
-        return students[0] if students else None
+        logger.info(f"Fetching TPU user profile: user_id={user_id}")
+        try:
+            data = self.get(f'/users/{user_id}')
+            return TPUUserDTO.from_api_response(data)
+        except Exception as e:
+            logger.warning(f"Failed to fetch TPU user profile {user_id}: {e}")
+            return None

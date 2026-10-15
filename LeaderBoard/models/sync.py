@@ -42,7 +42,7 @@ class SyncRun(models.Model):
     )
     task_name = models.CharField(
         max_length=100,
-        help_text="Название задачи (например, sync_tpu_students)"
+        help_text="Название задачи (например, sync_vitrina_projects)"
     )
     status = models.CharField(
         max_length=20,

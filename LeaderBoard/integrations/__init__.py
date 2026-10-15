@@ -1,6 +1,6 @@
 from .base_client import BaseApiClient
 from .factory import get_tpu_client, get_vitrina_client
-from .tpu import TPUClient, TPUStudentDTO, TPUApiError
+from .tpu import TPUClient, TPUApiError, TPUUserDTO
 from .vitrina import (
     VitrinaClient,
     VitrinaProjectDTO,
@@ -15,8 +15,8 @@ __all__ = [
     'get_tpu_client',
     'get_vitrina_client',
     'TPUClient',
-    'TPUStudentDTO',
     'TPUApiError',
+    'TPUUserDTO',
     'VitrinaClient',
     'VitrinaProjectDTO',
     'VitrinaCheckpointDTO',

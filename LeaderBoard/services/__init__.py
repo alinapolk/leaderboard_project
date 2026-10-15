@@ -24,14 +24,17 @@ from .sync_service import (
     get_or_create_source,
     start_sync_run,
     log_raw_response,
-    sync_tpu_students,
+    map_tpu_user_id_to_login,
+    clear_tpu_user_cache,
+    invalidate_tpu_user_cache,
     sync_vitrina_projects,
+    sync_team_members_from_projects,
     sync_vitrina_activities,
-    run_full_tpu_sync,
     run_full_vitrina_sync,
 )
 
 __all__ = [
+    # Rating
     'calculate_rating_score',
     'calculate_rating_components',
     'calculate_all_periods_rating',
@@ -43,6 +46,7 @@ __all__ = [
     'WORK_HOURS_NORMS',
     'PERIOD_RATING_FIELD',
     'PERIOD_HOURS_FIELD',
+    # Auth
     'get_tokens_for_user',
     'authenticate_user',
     'check_user_consent',
@@ -50,12 +54,15 @@ __all__ = [
     'link_student_to_user',
     'assign_student_role',
     'complete_consent_flow',
+    # Sync
     'get_or_create_source',
     'start_sync_run',
     'log_raw_response',
-    'sync_tpu_students',
+    'map_tpu_user_id_to_login',
+    'clear_tpu_user_cache',
+    'invalidate_tpu_user_cache',
     'sync_vitrina_projects',
+    'sync_team_members_from_projects',
     'sync_vitrina_activities',
-    'run_full_tpu_sync',
     'run_full_vitrina_sync',
 ]

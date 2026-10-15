@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'LeaderBoard.apps.LeaderboardConfig',
+    
     'rest_framework',
+    'drf_spectacular',
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -131,6 +133,23 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
     # Добавляем обработчик ошибок
     'EXCEPTION_HANDLER': 'LeaderBoard.common.exceptions.custom_exception_handler',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'LeaderBoard TPU API',
+    'DESCRIPTION': 'API системы рейтинга студентов ИШИТР ТПУ',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'TAGS': [
+        {'name': 'auth', 'description': 'Аутентификация и профиль пользователя'},
+        {'name': 'students', 'description': 'Студенты'},
+        {'name': 'projects', 'description': 'Проекты'},
+        {'name': 'teams', 'description': 'Команды'},
+        {'name': 'leaderboard', 'description': 'Рейтинги'},
+        {'name': 'activity', 'description': 'Активность'},
+    ],
 }
 
 
@@ -160,18 +179,37 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 # ============================================================
 
 # API ТПУ
-TPU_API_BASE_URL = os.getenv('TPU_API_BASE_URL', 'https://api.tpu.ru/v1')
+TPU_API_BASE_URL = os.getenv('TPU_API_BASE_URL', 'https://tpu.community.design/dev/api')
 TPU_CLIENT_ID = os.getenv('TPU_CLIENT_ID', '')
 TPU_CLIENT_SECRET = os.getenv('TPU_CLIENT_SECRET', '')
-TPU_API_MOCK_MODE = os.getenv('TPU_API_MOCK_MODE', 'True') == 'True'
-TPU_API_MOCK_PATH = BASE_DIR / 'mocks' / 'tpu'
+TPU_API_MOCK_MODE = os.getenv('TPU_API_MOCK_MODE', 'False') == 'True'
+TPU_API_MOCK_PATH = Path(BASE_DIR) / 'mocks' / 'tpu'
 
 # API Витрины
-VITRINA_API_BASE_URL = os.getenv('VITRINA_API_BASE_URL', 'https://vitrina.tpu.ru/api/v1')
+VITRINA_API_BASE_URL = os.getenv('VITRINA_API_BASE_URL', 'https://tpu.community.design/dev/api')
 VITRINA_CLIENT_ID = os.getenv('VITRINA_CLIENT_ID', '')
 VITRINA_CLIENT_SECRET = os.getenv('VITRINA_CLIENT_SECRET', '')
-VITRINA_API_MOCK_MODE = os.getenv('VITRINA_API_MOCK_MODE', 'True') == 'True'
-VITRINA_API_MOCK_PATH = BASE_DIR / 'mocks' / 'vitrina'
+VITRINA_API_MOCK_MODE = os.getenv('VITRINA_API_MOCK_MODE', 'False') == 'True'
+VITRINA_API_MOCK_PATH = Path(BASE_DIR) / 'mocks' / 'vitrina'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ============================================================================
+# REDIS CACHE (для маппинга tpu_user_id → login)
+# ============================================================================
+
+# Хост Redis: 'redis' в Docker, 'localhost' локально
+REDIS_CACHE_HOST = os.getenv('REDIS_CACHE_HOST', 'redis')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': f'redis://{REDIS_CACHE_HOST}:6379/1',  # БД 1 (БД 0 у Celery)
+        'TIMEOUT': 60 * 60 * 24,  # TTL по умолчанию: 24 часа
+    }
+}
+
+# Настройки кеша маппинга tpu_user_id → login
+TPU_USER_CACHE_TTL = int(os.getenv('TPU_USER_CACHE_TTL', 60 * 60 * 24))  # 24 часа
+TPU_USER_CACHE_PREFIX = 'tpu_user_to_login'

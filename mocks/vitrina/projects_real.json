@@ -1,0 +1,2175 @@
+{
+    "hits": [
+        {
+            "type": "Case",
+            "id": "y4LZHC84",
+            "ownerId": 288297,
+            "partner": {
+                "projectPartnerId": "3kUD73WG",
+                "name": "Т-БАНК",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwHioJp7wFajvRnezFuKp5r4xKt9I0l_Ay7vJjOqpZsQ&s=10"
+            },
+            "status": "RecruitmentCompleted",
+            "meta": {
+                "title": "Сервис контроля технического состояния жилых домов для управляющих компаний",
+                "description": "«ДомСигнал» — это сервис для управляющих компаний и выездных специалистов, который объединяет показания оборудования, результаты осмотров и обращения жильцов, помогая раньше обнаруживать опасные отклонения и предотвращать аварии в многоквартирных домах."
+            },
+            "checkpoints": {
+                "id": "8I-YYCcRvLww73Fu",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-10-02"
+                    },
+                    {
+                        "title": "Старт проекта",
+                        "deadline": "2026-10-11"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2026-11-12"
+                    }
+                ]
+            },
+            "customCheckpoints": [],
+            "roles": [
+                {
+                    "roleId": "woHsx7Y7ELEhO7o7",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "FTrYFu7plHDWclvC",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "gXqZkE9vF3jHTl4X",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "oN-MKiuV49_jUVIO",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "Fnb_4OjqG8eTJ1k8",
+                            "skillName": "Python",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "c0JzWznDFvbgtqnv",
+                            "skillName": "PostgreSQL",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "h10V8T5HBFSmyZXO",
+                            "skillName": "Java",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "k_8EX029hsLfygkg",
+                            "skillName": "Node.js",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "kvUwoZ6V3RR05LVC",
+                    "roleType": {
+                        "id": "WPo3UXfotg9Ggpgg",
+                        "name": "ML-инженер"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "eJXz_vzL06YfPaZ5",
+                            "skillName": "TensorFlow",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "KJAMwGVxAt5GxZMa",
+                            "skillName": "PyTorch",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "bMweNBEEXWbVZo1e",
+                            "skillName": "Data Science",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "AuvZEdDq56p7Mk39",
+                            "skillName": "TensorFlow",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "wZaavWeAMz2nRoni",
+                "tagName": "E-commerce",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "hHa_3w42e2AAmeaY",
+                    "tagName": "Веб-разработка",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "3YuT1DbxGRm-M7eE",
+                    "tagName": "VR/AR",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "Информация о состоянии жилых домов хранится в журналах, таблицах, чатах и отдельных диспетчерских системах. Инженеры не всегда видят полную историю неисправностей, а руководители узнают о критических проблемах после обращения жильцов или аварии. Износ инженерных сетей и рост стоимости срочных ремонтов повышают цену несвоевременной диагностики и увеличивают нагрузку на диспетчеров.",
+                "audience": [
+                    {
+                        "title": "Диспетчеры управляющих компаний",
+                        "minAge": 18,
+                        "maxAge": 35,
+                        "description": "Принимают обращения жильцов, определяют срочность проблемы, назначают специалистов и контролируют выполнение заявок по нескольким домам."
+                    }
+                ],
+                "projectGoal": "За шесть месяцев пилота в 20 многоквартирных домах снизить количество повторных аварийных заявок не менее чем на 25% и обеспечить подтверждение 90% критических предупреждений ответственным сотрудником в течение 10 минут.",
+                "functional": [
+                    "Единая карточка дома с оборудованием, результатами осмотров, текущими неисправностями и историей выполненных работ.",
+                    "Регистрация показаний инженерных систем вручную или через подключённые датчики."
+                ],
+                "problemStatement": "Исходные данные — перечень домов, оборудования, нормативных значений, журнал заявок за последний год и графики дежурств специалистов. Часть объектов оборудована датчиками разных производителей, а на остальных показания вводятся вручную. В подвалах и технических помещениях может отсутствовать стабильная мобильная связь. Необходимо интегрироваться с действующей диспетчерской системой и сохранить существующие номера заявок. Данные должны размещаться в соответствии с требованиями заказчика к хранению информации. Внедрение проводится поэтапно: обследование объектов, настройка справочников, подключение пяти пилотных домов, корректировка правил и расширение до 20 домов."
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Case",
+            "id": "XnOVKCvP",
+            "ownerId": 288297,
+            "partner": {
+                "projectPartnerId": "XawLWuqa",
+                "name": "ТПУ",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevQzJr3mZv9mPXYuuaKl7YUmiCFOCcYcnCyx7u9sTGw&s=10"
+            },
+            "status": "RecruitmentCompleted",
+            "meta": {
+                "title": "«Умная порция»: платформа прогнозирования спроса для школьных столовых",
+                "description": "«Умная порция» — это веб-сервис для заведующих школьными столовыми, который помогает рассчитывать необходимое количество блюд с учётом посещаемости, меню и истории спроса, чтобы сокращать списания продуктов и избегать нехватки популярных позиций."
+            },
+            "checkpoints": {
+                "id": "8I-YYCcRvLww73Fu",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-10-02"
+                    },
+                    {
+                        "title": "Старт проекта",
+                        "deadline": "2026-10-11"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2026-11-12"
+                    }
+                ]
+            },
+            "customCheckpoints": [
+                {
+                    "title": "Начало набора",
+                    "deadline": "2026-08-01"
+                },
+                {
+                    "title": "Донабор",
+                    "deadline": "2026-08-25"
+                },
+                {
+                    "title": "Защита",
+                    "deadline": "2027-02-11"
+                }
+            ],
+            "roles": [
+                {
+                    "roleId": "6TM-gcxgW14vk8XC",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "FTrYFu7plHDWclvC",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GUE9qf0WJxijcxMx",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "terf_9Q9o7rd1cpl",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "k_8EX029hsLfygkg",
+                            "skillName": "Node.js",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "rhuaaKUCkn_7ZFKR",
+                            "skillName": "Docker",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "NWQFBalfvTX1fZt8",
+                            "skillName": "Kafka",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "tI10iWfr0g3q5zwp",
+                    "roleType": {
+                        "id": "S-RJQg4_ozW849eR",
+                        "name": "Mobile"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "0yGqzCb_fqC4g7AB",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "56RORZQROFf5vHF_",
+                            "skillName": "Swift",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "AradxTo6zSJPw1O0",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "wZaavWeAMz2nRoni",
+                "tagName": "E-commerce",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "hHa_3w42e2AAmeaY",
+                    "tagName": "Веб-разработка",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "a-E39hpcfx-VyWlN",
+                    "tagName": "Дизайн",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "Школьные столовые планируют объём блюд заранее, опираясь на примерную посещаемость и опыт сотрудников. Фактический спрос меняется из-за расписания, сезонности, экскурсий и предпочтений учеников. В результате часть еды ежедневно списывается, а наиболее востребованные блюда заканчиваются раньше времени. Рост цен на продукты делает ошибки планирования всё более затратными для школ и операторов питания.",
+                "audience": [
+                    {
+                        "title": "Заведующие школьными столовыми",
+                        "minAge": 30,
+                        "maxAge": 60,
+                        "description": "Планируют закупки и производство блюд, отвечают за остатки и списания, ежедневно корректируют объёмы на основании неполной информации."
+                    },
+                    {
+                        "title": "Руководители операторов школьного питания",
+                        "minAge": 30,
+                        "maxAge": 60,
+                        "description": "Управляют несколькими столовыми, контролируют себестоимость, выполнение контрактов и показатели списаний по каждой школе."
+                    }
+                ],
+                "projectGoal": "До конца первого учебного полугодия провести пилот в 10 школах, снизить среднюю стоимость списанных готовых блюд не менее чем на 30% и добиться точности ежедневного прогноза спроса не ниже 85% минимум в восьми школах.",
+                "functional": [
+                    "Прогнозирование количества порций по каждому блюду на основании истории спроса, посещаемости, меню и календаря мероприятий.",
+                    "Загрузка ежедневного меню и плановой себестоимости блюд с возможностью копирования типовых недель.",
+                    "Регистрация приготовленных, проданных и списанных порций сотрудниками столовой.",
+                    "Панель руководителя со сравнением спроса, списаний и точности прогноза по всем подключённым школам.",
+                    "Уведомления об ожидаемом избытке или дефиците блюд до начала приготовления."
+                ],
+                "problemStatement": "Исходные данные — ежедневные меню, сведения о приготовленных и реализованных порциях, объём списаний, плановая посещаемость и календарь школьных мероприятий. На пилоте часть информации будет загружаться из таблиц, поскольку школы используют разные учётные системы. Персональные данные учеников собирать нельзя: посещаемость передаётся только агрегированными значениями. Необходимо учитывать учебные каникулы, выходные, замены меню и ограничения действующих договоров с операторами питания. Реализация начинается с анализа данных трёх школ, после чего создаётся прототип, проводится пилот в 10 учреждениях и уточняется модель прогнозирования."
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Case",
+            "id": "BZ_20GAU",
+            "ownerId": 282864,
+            "partner": {
+                "projectPartnerId": "3kUD73WG",
+                "name": "Т-БАНК",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwHioJp7wFajvRnezFuKp5r4xKt9I0l_Ay7vJjOqpZsQ&s=10"
+            },
+            "status": "RecruitmentCompleted",
+            "meta": {
+                "title": "Модуль бронирования переговорных комнат для сети коворкингов",
+                "description": "«КомнатаБро» — это веб-сервис для резидентов и гостей сети коворкингов, который помогает быстро находить свободные переговорные комнаты, бронировать их в несколько кликов и исключать накладки по времени встреч."
+            },
+            "checkpoints": {
+                "id": "8I-YYCcRvLww73Fu",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-10-02"
+                    },
+                    {
+                        "title": "Старт проекта",
+                        "deadline": "2026-10-11"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2026-11-12"
+                    }
+                ]
+            },
+            "customCheckpoints": [
+                {
+                    "title": "Постерная сессия",
+                    "deadline": "2026-12-24"
+                }
+            ],
+            "roles": [
+                {
+                    "roleId": "hcuhoUY-__8pBCHg",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "gXqZkE9vF3jHTl4X",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "FTrYFu7plHDWclvC",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "FJ_cjAw51hFBCEQv",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "k_8EX029hsLfygkg",
+                            "skillName": "Node.js",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "c0JzWznDFvbgtqnv",
+                            "skillName": "PostgreSQL",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "bM46867_Pg9BkXUa",
+                            "skillName": "Python",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "zxYCsvEBqEKElwYf",
+                            "skillName": "Golang",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "-P8BVNtXzXiFLWHD",
+                    "roleType": {
+                        "id": "WPo3UXfotg9Ggpgg",
+                        "name": "ML-инженер"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "VTf-FfUfyncyQn4L",
+                            "skillName": "PyTorch",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "u1lU_A0z_Srt5dn_",
+                            "skillName": "Data Science",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "RRE2oh5RGOonjdBA",
+                            "skillName": "Computer Vision",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "hHa_3w42e2AAmeaY",
+                "tagName": "Веб-разработка",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "8bw-XuHG5gFIPEJ_",
+                    "tagName": "Инженерия",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "3YuT1DbxGRm-M7eE",
+                    "tagName": "VR/AR",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "Резиденты коворкингов бронируют переговорные комнаты через звонки и сообщения администраторам, что отнимает рабочее время и приводит к регулярным накладкам в расписании. В часы пик до 25% запросов на бронь остаются без оперативного ответа, провоцируя конфликты между командами из-за занятых помещений. Администраторы тратят до трёх часов в день на ручной учёт в разрозненных таблицах вместо решения сервисных задач, а уровень удовлетворённости резидентов инфраструктурой коворкинга снижается.",
+                "audience": [
+                    {
+                        "title": "Постоянные резиденты коворкинга (стартапы и фрилансеры)",
+                        "minAge": 24,
+                        "maxAge": 45,
+                        "description": "Арендуют рабочие места, регулярно проводят созвоны с заказчиками и внутренние командные митинги, ценят автономность и мгновенное подтверждение слотов."
+                    },
+                    {
+                        "title": "Администраторы площадок коворкинга",
+                        "minAge": 20,
+                        "maxAge": 40,
+                        "description": "Координируют жизнь пространства, встречают гостей, ведут первичный документооборот и перегружены ручной фиксацией встреч резидентов в течение дня.\n"
+                    }
+                ],
+                "projectGoal": "В течение первых трёх месяцев после запуска сократить среднее время оформления бронирования переговорной с 5 минут до 30 секунд и довести долю самостоятельных бронирований без участия администратора до 85%.",
+                "functional": [
+                    "Система должна отображать статус занятости переговорной комнаты при условии выбора пользователем даты и временного интервала",
+                    "Система должна создавать запись бронирования в календаре при условии подтверждения слота резидентом",
+                    "Система должна аннулировать бронь и освобождать слот при условии отсутствия отметки о начале встречи в течение 10 минут после старта",
+                    "Система должна блокировать возможность выбора интервала при условии наличия пересечения с уже подтверждённой бронью"
+                ],
+                "problemStatement": "Исходные данные — перечень из 15 переговорных комнат с описанием вместимости и оснащения на трёх локациях коворкинга, а также реестр активных договоров 250 резидентов. Внешние ограничения проекта включают обязательную интеграцию с корпоративным календарем Google Workspace резидентов и существующей системой электронного контроля доступа по смарт-картам. Проект реализуется поэтапно: сначала проводится аудит текущих сценариев бронирования, затем разрабатывается веб-интерфейс с закрытым тестированием на одной флагманской локации, после чего модуль разворачивается на всей сети пространств."
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                },
+                {
+                    "platformId": "AtjNdYJ1XlqssOo3",
+                    "name": "GitLab",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Real",
+            "id": "We3JC08b",
+            "ownerId": 282864,
+            "partner": {
+                "projectPartnerId": "XawLWuqa",
+                "name": "ТПУ",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevQzJr3mZv9mPXYuuaKl7YUmiCFOCcYcnCyx7u9sTGw&s=10"
+            },
+            "status": "RecruitmentCompleted",
+            "meta": {
+                "title": "Платформа онлайн-записи и учёта пациентов для сети ветеринарных клиник",
+                "description": "«ВетЗабота» — это единый веб-сервис для сети ветеринарных клиник и владельцев животных, который помогает автоматизировать запись на приём, вести прозрачные электронные медкарты питомцев и исключить накладки в расписании врачей."
+            },
+            "checkpoints": {
+                "id": "8I-YYCcRvLww73Fu",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-10-02"
+                    },
+                    {
+                        "title": "Старт проекта",
+                        "deadline": "2026-10-11"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2026-11-12"
+                    }
+                ]
+            },
+            "customCheckpoints": [
+                {
+                    "title": "Предзащита",
+                    "deadline": "2026-12-23"
+                }
+            ],
+            "roles": [
+                {
+                    "roleId": "GLfpFvjp0plGbDj2",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "GUE9qf0WJxijcxMx",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "FTrYFu7plHDWclvC",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "b1pjUMoXxKkVluh0",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "u09j9Ep9wPeTvGMB",
+                    "roleType": {
+                        "id": "S-RJQg4_ozW849eR",
+                        "name": "Mobile"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "pqnuEDDaBHZ9Swfc",
+                            "skillName": "Kotlin",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "e7bTyPZracRgBqZa",
+                            "skillName": "Flutter",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "bineePgBT2GG1zkl",
+                            "skillName": "JetpackCompose",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "s6OrQGTfa702qUKO",
+                            "skillName": "Swift",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "-yciacBpVTJECRrQ",
+                            "skillName": "JetpackCompose",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "yu4CdLqFq3YFV_zM",
+                            "skillName": "React Native",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "Kc-iQ9ruIuIwi80N",
+                    "roleType": {
+                        "id": "b_gOR3xPANBqg6mJ",
+                        "name": "QA"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "FVosA_SJfHTDWIUa",
+                            "skillName": "Ручное тестирование",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "238XcAYgB0JXU_Mk",
+                            "skillName": "Postman",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "Ni8nEARDE01svAZ9",
+                            "skillName": "Автотесты",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "RmRW5wF4-ZFEb-lZ",
+                            "skillName": "CI/CD",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "hHa_3w42e2AAmeaY",
+                "tagName": "Веб-разработка",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "8bw-XuHG5gFIPEJ_",
+                    "tagName": "Инженерия",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "a-E39hpcfx-VyWlN",
+                    "tagName": "Дизайн",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "productVision": "Для владельцев домашних питомцев и ветеринарных врачей, которые тратят лишнее время на рутину и телефонные согласования, сервис «ВетЗабота» — это цифровая экосистема, которая обеспечивает непрерывный доступ к истории лечения и расписанию приёма. В отличие от разрозненных таблиц и бумажных журналов, наш сервис объединяет филиалы сети в прозрачное цифровое пространство.",
+                "audience": [
+                    {
+                        "title": "Владельцы домашних животных (городские жители)",
+                        "minAge": 22,
+                        "maxAge": 45,
+                        "description": "Регулярно посещают клинику для плановой вакцинации или лечения, ценят возможность записаться ночью со смартфона и просматривать назначения."
+                    },
+                    {
+                        "title": "Администраторы и регистраторы ветеринарных клиник",
+                        "minAge": 20,
+                        "maxAge": 40,
+                        "description": "Принимают поток звонков, распределяют визиты по кабинетам врачей, испытывают перегрузки в пиковые часы и боятся допустить накладку в расписании."
+                    }
+                ],
+                "projectGoal": "К концу второго квартала после релиза сократить среднее время оформления записи на приём с 8 до 1,5 минут, а долю клиентов, записывающихся самостоятельно через веб-интерфейс, довести до 60%.",
+                "businessGoal": "Увеличение пропускной способности сети клиник на 15% за счёт снижения неявок на приём и рост повторных визитов постоянных клиентов на 20% в течение 12 месяцев после запуска.",
+                "functional": [
+                    "Система должна блокировать выбранный временной слот при условии начала его бронирования клиентом",
+                    "Система должна отправлять SMS-уведомление с деталями записи при условии успешного подтверждения визита",
+                    "Система должна открывать доступ к медицинской карте при условии ввода номера чипа питомца администратором"
+                ],
+                "nonFunctional": [
+                    "Система должна блокировать выбранный временной слот при условии начала его бронирования клиентом",
+                    "Система должна отправлять SMS-уведомление с деталями записи при условии успешного подтверждения визита",
+                    "Система должна открывать доступ к медицинской карте при условии ввода номера чипа питомца администратором"
+                ],
+                "businessMetrics": [
+                    "Снижение доли пропущенных приёмов без предупреждения (No-Show) с 22% до 7% за первые 6 месяцев",
+                    "Рост ежемесячной выручки сети клиник на 18% за счёт ликвидации пустых интервалов в расписании"
+                ],
+                "projectPlan": [
+                    "Сбор требований и аудит процессов — утверждённое техническое задание и карта клиентского пути владельцев питомцев и врачей",
+                    "Проектирование и дизайн — интерактивный прототип веб-интерфейса для клиента и рабочего места администратора в Figma",
+                    "Разработка и интеграция касс — готовый программный модуль онлайн-записи с подключенным SMS-шлюзом клиники",
+                    "Тестирование и пилот — проверенная версия системы без критических дефектов и запуск в одном пилотном филиале"
+                ]
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Case",
+            "id": "AtR2Wn3l",
+            "ownerId": 282864,
+            "partner": {
+                "projectPartnerId": "XawLWuqa",
+                "name": "ТПУ",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevQzJr3mZv9mPXYuuaKl7YUmiCFOCcYcnCyx7u9sTGw&s=10"
+            },
+            "status": "RecruitmentCompleted",
+            "meta": {
+                "title": "Веб-платформа «Маркетплейс для общежития»",
+                "description": "Веб-сервис - создание безопасной и удобной цифровой площадки для внутреннего обмена товарами и услугами между студентами ТПУ. Сервис упрощает поиск нужных вещей, снижает финансовую нагрузку на студентов за счет вторичного рынка и формирует экосистему взаимопомощи внутри университетского сообщества. \n"
+            },
+            "checkpoints": {
+                "id": "8I-YYCcRvLww73Fu",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-10-02"
+                    },
+                    {
+                        "title": "Старт проекта",
+                        "deadline": "2026-10-11"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2026-11-12"
+                    }
+                ]
+            },
+            "customCheckpoints": [
+                {
+                    "title": "Предзащита",
+                    "deadline": "2026-11-17"
+                }
+            ],
+            "roles": [
+                {
+                    "roleId": "sTnnLZFDuqxW2qdG",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "b1pjUMoXxKkVluh0",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "nkWmEdZ0f03xWFyi",
+                    "roleType": {
+                        "id": "S-RJQg4_ozW849eR",
+                        "name": "Mobile"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "e7bTyPZracRgBqZa",
+                            "skillName": "Flutter",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "pqnuEDDaBHZ9Swfc",
+                            "skillName": "Kotlin",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "bineePgBT2GG1zkl",
+                            "skillName": "JetpackCompose",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "AradxTo6zSJPw1O0",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "HCXgZa42LbmX6i-Z",
+                    "roleType": {
+                        "id": "b_gOR3xPANBqg6mJ",
+                        "name": "QA"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "8cHBC3nKCl2aVQzc",
+                            "skillName": "Ручное тестирование",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "Ni8nEARDE01svAZ9",
+                            "skillName": "Автотесты",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "GxhsRBwu8wEhZV8_",
+                            "skillName": "Docker",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "NmMW2a1GZ4g32un9",
+                    "roleType": {
+                        "id": "IMhY364_obyDk0Qe",
+                        "name": "Аналитик"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "8z-Lr5R5_VAITTVx",
+                            "skillName": "Бизнес-анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "5xLRcGFD6buZKp17",
+                            "skillName": "SQL",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "87wGh35fNEwC06sP",
+                            "skillName": "BPMN",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "degkxa9ggCC9lHbL",
+                            "skillName": "UML",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "wZaavWeAMz2nRoni",
+                "tagName": "E-commerce",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "hHa_3w42e2AAmeaY",
+                    "tagName": "Веб-разработка",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "3YuT1DbxGRm-M7eE",
+                    "tagName": "VR/AR",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "Тысячи студентов ТПУ проживают в общежитиях, и ежегодно возникает потребность в покупке/продаже вещей: учебная литература, мебель, бытовая техника, одежда, спортивный инвентарь и многое другое. Особенно остро это проявляется в начале учебного года (заезд первокурсников) и перед отъездом выпускников.\n",
+                "audience": [
+                    {
+                        "title": "Студентики ТПУ",
+                        "minAge": 17,
+                        "maxAge": 25,
+                        "description": "все категории, преимущественно проживающие в общежитиях, но также и другие студенты, желающие покупать/продавать вещи."
+                    },
+                    {
+                        "title": "Выпускники ТПУ",
+                        "minAge": 22,
+                        "maxAge": 28,
+                        "description": "Могут иметь аккаунт до истечения определенного срока для завершения сделок. Да-да, это чистая правда"
+                    }
+                ],
+                "projectGoal": "1. Разработка веб-платформы (с возможностью адаптации под мобильные устройства) для размещения объявлений о продаже, аренде и бесплатной передаче вещей.\n2. Реализация системы авторизации через корпоративный аккаунт ТПУ (LDAP) для подтверждения студенческого статуса.\n3. Внедрение системы фильтрации по общежитию (номера корпусов), категории, статусу объявления (активно/завершено), цене.\n4. Реализация системы рейтингов и отзывов для пользователей (после завершения сделки обе стороны могут оставить\n",
+                "functional": [
+                    "Развёрнутый веб-сервис для внутрикампусной торговли, доступный студентам ТПУ через корпоративную авторизацию.",
+                    "Структурированный каталог объявлений с фильтрацией по категориям, общежитию и другим параметрам.",
+                    "Система рейтингов и отзывов, обеспечивающая доверие между участниками сделок.",
+                    "Механизм модерации, защищающий от мошеннических объявлений и спама.",
+                    "Удобный личный кабинет для управления объявлениями и историей сделок.",
+                    "Увеличение объёма внутрикампусного оборота вещей, снижение финансовой нагрузки на студентов.",
+                    "Формирование базы данных предпочтений студентов для улучшения работы общежитий."
+                ],
+                "problemStatement": "Все круто классно, но в доке нет на это поля информации, поэтому пока что так. В будущем все должно появиться"
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                },
+                {
+                    "platformId": "92j5EwHxcrUl42U0",
+                    "name": "YouTrack",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "otherPlatforms": [
+                {
+                    "platformId": "w6gvqNJbnxVH82Cv",
+                    "name": "Figma",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                },
+                {
+                    "platformId": "rKYrZWF05rAfjBxX",
+                    "name": "Miro",
+                    "url": "https://github.com/Mys2018/ProjectShowcaseTPU"
+                }
+            ],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Study",
+            "id": "aVJb9TQK",
+            "ownerId": 282864,
+            "partner": {
+                "projectPartnerId": "NATAyBCT",
+                "name": "ИШИТР ТПУ",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkxAgkKD9nSjZVUdI2T3Y9YY8aDZp0Fhx6GXAh4DfanA&s=10"
+            },
+            "status": "RecruitmentCompleted",
+            "meta": {
+                "title": "Коробочное решение Системы Электронного Документооборота",
+                "description": "Провести анализ требований к коробочной версии СЭД, определить ее конкурентные преимущества на рынке систем электронного документооборота, спроектировать современный дизайн для разработки прототипа с тестовым функционалом, подтверждающим жизнеспособность концепции и готовность к дальнейшей коммерциализации.\n"
+            },
+            "checkpoints": {
+                "id": "8I-YYCcRvLww73Fu",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-10-02"
+                    },
+                    {
+                        "title": "Старт проекта",
+                        "deadline": "2026-10-11"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2026-11-12"
+                    }
+                ]
+            },
+            "customCheckpoints": [
+                {
+                    "title": "Начало набора",
+                    "deadline": "2026-08-01"
+                },
+                {
+                    "title": "Донабор",
+                    "deadline": "2026-08-25"
+                },
+                {
+                    "title": "Предзащита",
+                    "deadline": "2026-12-22"
+                },
+                {
+                    "title": "Защита",
+                    "deadline": "2027-02-11"
+                }
+            ],
+            "roles": [
+                {
+                    "roleId": "cKKizSn60OxqFLK6",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "6hqQzQkPMowJVq2X",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "m4WgqwVkINIe9oIO",
+                            "skillName": "HTML/CSS",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "pU2vcPsvfwichOTJ",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "6hqQzQkPMowJVq2X",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "m4WgqwVkINIe9oIO",
+                            "skillName": "HTML/CSS",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "NVoLZdmejbzzMY5A",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "bM46867_Pg9BkXUa",
+                            "skillName": "Python",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "c0JzWznDFvbgtqnv",
+                            "skillName": "PostgreSQL",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "VFviTvtqdzNL-fUC",
+                            "skillName": "Kafka",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "8bw-XuHG5gFIPEJ_",
+                "tagName": "Инженерия",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "hHa_3w42e2AAmeaY",
+                    "tagName": "Веб-разработка",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "3YuT1DbxGRm-M7eE",
+                    "tagName": "VR/AR",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "СОУД успешно эксплуатируется в ТПУ, обеспечивая обработку приказов, распоряжений и управленческих документов. Однако на сегодняшний день это внутреннее решение, не предназначенное для тиражирования. Рынок СЭД в России представлен крупными игроками (1С:Документооборот, Directum, ELMA, TESSA, Дело)",
+                "projectGoal": "1.\tАнализ требований и конкурентов. \n    ●\tИзучить функциональность и ценообразование ведущих СЭД (1С:Документооборот, Directum, ELMA, TESSA, Дело).\n    ●\tОпределить функциональные и нефункциональные требования к коробочному решению.\n    ●\tВыявить конкурентные преимущества и незанятые ниши.\n2.\tПроектирование дизайна (макетов). \n    ●\tРазработать новый интерфейс СЭД в современном стиле (карточки, дашборды, интуитивная навигация).\n    ●\tСоздать макеты ключевых экранов\n",
+                "keyFunctionality": [
+                    "Проведён анализ рынка и конкурентов, определены целевые сегменты и их потребности.",
+                    "Сформулированы функциональные и нефункциональные требования к коробочному решению СЭД.",
+                    "Разработан современный дизайн (макеты в Figma) для ключевых экранов: дашборд, список документов, карточка документа, конфигуратор маршрутов."
+                ]
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://github.com/Voold/ShowCaseNewGen"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://github.com/Voold/ShowCaseNewGen"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Real",
+            "id": "GICejsH1",
+            "ownerId": 288297,
+            "partner": {
+                "projectPartnerId": "XawLWuqa",
+                "name": "ТПУ",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevQzJr3mZv9mPXYuuaKl7YUmiCFOCcYcnCyx7u9sTGw&s=10"
+            },
+            "status": "InProgress",
+            "meta": {
+                "title": "Платформа управления вызовами эвакуаторов для сети автосервисов",
+                "description": "«ЭвакоЦентр» — это веб-платформа для сети автосервисов, которая помогает диспетчерам распределять вызовы эвакуаторов между свободными водителями и отслеживать статус каждого заказа в реальном времени."
+            },
+            "checkpoints": {
+                "id": "wMRbFMnVJVjoeqMP",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-08-01"
+                    },
+                    {
+                        "title": "Донабор",
+                        "deadline": "2026-08-25"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2027-02-11"
+                    }
+                ]
+            },
+            "customCheckpoints": [],
+            "roles": [
+                {
+                    "roleId": "RVHS0F9igTmWN6EG",
+                    "roleType": {
+                        "id": "IMhY364_obyDk0Qe",
+                        "name": "Аналитик"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [
+                        283244
+                    ],
+                    "skills": [
+                        {
+                            "skillId": "KMTPOOfc_z1zc5AL",
+                            "skillName": "Системный анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "87wGh35fNEwC06sP",
+                            "skillName": "BPMN",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "ukaTemZ0w7YQ7r1D",
+                            "skillName": "Системный анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "EiNYUUTqW9lliu8Y",
+                            "skillName": "SQL",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "5xLRcGFD6buZKp17",
+                            "skillName": "SQL",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "degkxa9ggCC9lHbL",
+                            "skillName": "UML",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "8z-Lr5R5_VAITTVx",
+                            "skillName": "Бизнес-анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "fPfVfAHghol9VsUQ",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [
+                        287444
+                    ],
+                    "skills": [
+                        {
+                            "skillId": "b1pjUMoXxKkVluh0",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "LncFBmjmDnaqhKHR",
+                            "skillName": "Angular",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "gXqZkE9vF3jHTl4X",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GUE9qf0WJxijcxMx",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "m4WgqwVkINIe9oIO",
+                            "skillName": "HTML/CSS",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "6hqQzQkPMowJVq2X",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "BqzEXiL0cZorYC7I",
+                    "roleType": {
+                        "id": "S-RJQg4_ozW849eR",
+                        "name": "Mobile"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "56RORZQROFf5vHF_",
+                            "skillName": "Swift",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "AradxTo6zSJPw1O0",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "e7bTyPZracRgBqZa",
+                            "skillName": "Flutter",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "bineePgBT2GG1zkl",
+                            "skillName": "JetpackCompose",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "eWGVU49imxpfQjV5",
+                            "skillName": "Flutter",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "dtxY7k9wVQeMwhaR",
+                            "skillName": "React Native",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "0yGqzCb_fqC4g7AB",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "FEL4pdxNO6EpyzuG",
+                    "roleType": {
+                        "id": "b_gOR3xPANBqg6mJ",
+                        "name": "QA"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [
+                        282864
+                    ],
+                    "skills": [
+                        {
+                            "skillId": "TynfmhUh_HLGT936",
+                            "skillName": "Docker",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "238XcAYgB0JXU_Mk",
+                            "skillName": "Postman",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "RmRW5wF4-ZFEb-lZ",
+                            "skillName": "CI/CD",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "FVosA_SJfHTDWIUa",
+                            "skillName": "Ручное тестирование",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "GxhsRBwu8wEhZV8_",
+                            "skillName": "Docker",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        },
+                        {
+                            "skillId": "8cHBC3nKCl2aVQzc",
+                            "skillName": "Ручное тестирование",
+                            "roleTypeId": "b_gOR3xPANBqg6mJ"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "Bzptjc-XYfQFXUXw",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "5G6xd6UL7kFLux20",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "c0JzWznDFvbgtqnv",
+                            "skillName": "PostgreSQL",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "_SwJqXM3_7Wuz4if",
+                            "skillName": "Node.js",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "k_8EX029hsLfygkg",
+                            "skillName": "Node.js",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "h10V8T5HBFSmyZXO",
+                            "skillName": "Java",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "rhuaaKUCkn_7ZFKR",
+                            "skillName": "Docker",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "NWQFBalfvTX1fZt8",
+                            "skillName": "Kafka",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "VFviTvtqdzNL-fUC",
+                            "skillName": "Kafka",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "bM46867_Pg9BkXUa",
+                            "skillName": "Python",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "hHa_3w42e2AAmeaY",
+                "tagName": "Веб-разработка",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "3YuT1DbxGRm-M7eE",
+                    "tagName": "VR/AR",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "Hh5HtEYCPfVOsyy6",
+                    "tagName": "FinTech",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "a-E39hpcfx-VyWlN",
+                    "tagName": "Дизайн",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "productVision": "Для диспетчеров и водителей эвакуаторов, которые ежедневно теряют время на согласование вызовов по телефону, «ЭвакоЦентр» — это единый центр управления эвакуацией, который делает распределение заявок мгновенным и прозрачным. В отличие от ручных чатов и звонков, наша платформа автоматически показывает ближайшего свободного водителя и статус каждого вызова в реальном времени.",
+                "audience": [
+                    {
+                        "title": "Диспетчеры сети автосервисов",
+                        "minAge": 28,
+                        "maxAge": 50,
+                        "description": "Принимают звонки от клиентов о поломке или ДТП, вручную ищут свободного водителя эвакуатора, работают в высоком темпе в часы пик и нуждаются в едином окне для распределения заявок."
+                    }
+                ],
+                "projectGoal": "К концу первого квартала после запуска среднее время назначения эвакуатора на заявку сократится с 15 до 4 минут, а доля заявок, распределённых автоматически без звонка диспетчера, достигнет 80%.",
+                "businessGoal": "Снижение операционных затрат на диспетчеризацию на 25% за счёт автоматизации распределения заявок и увеличение количества выполненных вызовов на одного водителя на 15% в течение первого года.",
+                "functional": [
+                    "Система должна назначать ближайшего свободного водителя при условии поступления новой заявки",
+                    "Система должна пересчитывать маршрут при условии изменения адреса эвакуации диспетчером",
+                    "Система должна отправлять push-уведомление водителю при условии назначения ему новой заявки"
+                ],
+                "nonFunctional": [
+                    "Время отклика интерфейса диспетчера должно быть менее 2 секунд при пиковой нагрузке",
+                    "Мобильное приложение водителя должно поддерживать offline-режим при потере связи"
+                ],
+                "businessMetrics": [
+                    "Сокращение среднего времени назначения эвакуатора с 15 до 4 минут",
+                    "Рост количества выполненных заявок на одного водителя на 15% за квартал"
+                ],
+                "projectPlan": [
+                    "Аналитика процессов — карта текущего пути заявки от звонка клиента до обработки и выполнения его запроса",
+                    "Прототипирование — кликабельный макет диспетчерской панели в Figma, а также готовый адаптив под мобильные устройства",
+                    "Разработка ядра — рабочий модуль автоматического распределения заявок внутри работы системы, также подготовлены блоки для дальнейшего масштабирования",
+                    "Пилотное внедрение — запуск в одном регионе, по решению заказчика и сбор обратной связи водителей-клиентов"
+                ]
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Case",
+            "id": "mIADnl56",
+            "ownerId": 288297,
+            "partner": {
+                "projectPartnerId": "3kUD73WG",
+                "name": "Т-БАНК",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwHioJp7wFajvRnezFuKp5r4xKt9I0l_Ay7vJjOqpZsQ&s=10"
+            },
+            "status": "InProgress",
+            "meta": {
+                "title": "Модуль бронирования переговорных комнат для сети коворкингов",
+                "description": "«КомнатаБро» — это веб-модуль для сети коворкингов, который помогает резидентам быстро находить и бронировать свободные переговорные комнаты без звонков администратору."
+            },
+            "checkpoints": {
+                "id": "wMRbFMnVJVjoeqMP",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-08-01"
+                    },
+                    {
+                        "title": "Донабор",
+                        "deadline": "2026-08-25"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2027-02-11"
+                    }
+                ]
+            },
+            "customCheckpoints": [],
+            "roles": [
+                {
+                    "roleId": "Pxx-d-cvUH2-fSE5",
+                    "roleType": {
+                        "id": "S-RJQg4_ozW849eR",
+                        "name": "Mobile"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [
+                        283991
+                    ],
+                    "skills": [
+                        {
+                            "skillId": "56RORZQROFf5vHF_",
+                            "skillName": "Swift",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "AradxTo6zSJPw1O0",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "bineePgBT2GG1zkl",
+                            "skillName": "JetpackCompose",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "eWGVU49imxpfQjV5",
+                            "skillName": "Flutter",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "dtxY7k9wVQeMwhaR",
+                            "skillName": "React Native",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        },
+                        {
+                            "skillId": "0yGqzCb_fqC4g7AB",
+                            "skillName": "QML",
+                            "roleTypeId": "S-RJQg4_ozW849eR"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "1qWtDPiIm7M-ysa3",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "FTrYFu7plHDWclvC",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "b1pjUMoXxKkVluh0",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "fDa78jzNhostMW_S",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GUE9qf0WJxijcxMx",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "6hqQzQkPMowJVq2X",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "QuAWFQ3V1iIP5WZF",
+                    "roleType": {
+                        "id": "WPo3UXfotg9Ggpgg",
+                        "name": "ML-инженер"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "AuvZEdDq56p7Mk39",
+                            "skillName": "TensorFlow",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "n00hZlR1knSKc3wD",
+                            "skillName": "Computer Vision",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "eJXz_vzL06YfPaZ5",
+                            "skillName": "TensorFlow",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "oo98doERBRPj3_Y6",
+                            "skillName": "NLP",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "KJAMwGVxAt5GxZMa",
+                            "skillName": "PyTorch",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        },
+                        {
+                            "skillId": "bMweNBEEXWbVZo1e",
+                            "skillName": "Data Science",
+                            "roleTypeId": "WPo3UXfotg9Ggpgg"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "4n2Wc4kqYnQuAGKa",
+                    "roleType": {
+                        "id": "IMhY364_obyDk0Qe",
+                        "name": "Аналитик"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [
+                        285098
+                    ],
+                    "skills": [
+                        {
+                            "skillId": "KMTPOOfc_z1zc5AL",
+                            "skillName": "Системный анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "ayeE_YaTT3_8d1PU",
+                            "skillName": "Бизнес-анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "87wGh35fNEwC06sP",
+                            "skillName": "BPMN",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "EiNYUUTqW9lliu8Y",
+                            "skillName": "SQL",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "5xLRcGFD6buZKp17",
+                            "skillName": "SQL",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "8z-Lr5R5_VAITTVx",
+                            "skillName": "Бизнес-анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "7R_GK_PO8WeFGlnA",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [
+                        288296
+                    ],
+                    "skills": [
+                        {
+                            "skillId": "c0JzWznDFvbgtqnv",
+                            "skillName": "PostgreSQL",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "k_8EX029hsLfygkg",
+                            "skillName": "Node.js",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "h10V8T5HBFSmyZXO",
+                            "skillName": "Java",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "rhuaaKUCkn_7ZFKR",
+                            "skillName": "Docker",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "Fnb_4OjqG8eTJ1k8",
+                            "skillName": "Python",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "NWQFBalfvTX1fZt8",
+                            "skillName": "Kafka",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "wZaavWeAMz2nRoni",
+                "tagName": "E-commerce",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "hHa_3w42e2AAmeaY",
+                    "tagName": "Веб-разработка",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "a-E39hpcfx-VyWlN",
+                    "tagName": "Дизайн",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "Резиденты коворкингов сейчас бронируют переговорные комнаты через чаты и звонки администратору, что занимает время и приводит к двойным бронированиям. Администраторы тратят до трёх часов в день на обработку заявок вручную, а конфликты по времени вызывают недовольство арендаторов и жалобы на сервис. Растущее число резидентов делает ручной процесс всё менее управляемым.",
+                "audience": [
+                    {
+                        "title": "Резиденты коворкинга",
+                        "minAge": 25,
+                        "maxAge": 45,
+                        "description": "Работают в открытых зонах коворкинга, регулярно проводят встречи с клиентами и командой, ценят скорость и простоту бронирования без лишних шагов."
+                    }
+                ],
+                "projectGoal": " В течение первого квартала после запуска доля бронирований переговорных комнат через модуль вместо звонков администратору вырастет до 90%, а среднее время оформления одной брони сократится с 5 минут до 30 секунд.",
+                "functional": [
+                    "Система должна показывать актуальный статус переговорной комнаты при условии обновления расписания в реальном времени",
+                    "Система должна отменять бронирование автоматически при условии отсутствия подтверждения участником в течение 10 минут",
+                    "Система должна отправлять уведомление администратору при условии двойного бронирования одной комнаты"
+                ],
+                "problemStatement": "Исходные данные — текущий график занятости пяти переговорных комнат в формате Excel и список из 120 резидентов сети коворкингов. Модуль должен интегрироваться с существующей системой пропускного контроля и календарём Google Workspace, которым уже пользуются резиденты. Ограничение по срокам — запуск пилота в одном коворкинге компании в течение шести недель с последующим тиражированием на остальные площадки сети."
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        },
+        {
+            "type": "Study",
+            "id": "j-9xik6V",
+            "ownerId": 288297,
+            "partner": {
+                "projectPartnerId": "NATAyBCT",
+                "name": "ИШИТР ТПУ",
+                "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkxAgkKD9nSjZVUdI2T3Y9YY8aDZp0Fhx6GXAh4DfanA&s=10"
+            },
+            "status": "InProgress",
+            "meta": {
+                "title": "Мобильный трекер учебных привычек для школьников",
+                "description": " «Привычка+» — это мобильное приложение для школьников 12–17 лет, которое помогает выработать полезные учебные привычки через ежедневные короткие задания и наглядный прогресс."
+            },
+            "checkpoints": {
+                "id": "wMRbFMnVJVjoeqMP",
+                "checkpoints": [
+                    {
+                        "title": "Начало набора",
+                        "deadline": "2026-08-01"
+                    },
+                    {
+                        "title": "Донабор",
+                        "deadline": "2026-08-25"
+                    },
+                    {
+                        "title": "Защита",
+                        "deadline": "2027-02-11"
+                    }
+                ]
+            },
+            "customCheckpoints": [],
+            "roles": [
+                {
+                    "roleId": "DDl4ApYqaMUoR-C3",
+                    "roleType": {
+                        "id": "2_gnZOaPQnTN0-Gt",
+                        "name": "Frontend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "6hqQzQkPMowJVq2X",
+                            "skillName": "React",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "udxlPNPE2FpWOkYn",
+                            "skillName": "TanStack Query",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "GqsCfnCfacBg7y78",
+                            "skillName": "TypeScript",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        },
+                        {
+                            "skillId": "gXqZkE9vF3jHTl4X",
+                            "skillName": "Vue.js",
+                            "roleTypeId": "2_gnZOaPQnTN0-Gt"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "RGxGgWn2hFdREHCW",
+                    "roleType": {
+                        "id": "CXquunM-7rvShbA9",
+                        "name": "Backend"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 1,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "bM46867_Pg9BkXUa",
+                            "skillName": "Python",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "c0JzWznDFvbgtqnv",
+                            "skillName": "PostgreSQL",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "rhuaaKUCkn_7ZFKR",
+                            "skillName": "Docker",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        },
+                        {
+                            "skillId": "VFviTvtqdzNL-fUC",
+                            "skillName": "Kafka",
+                            "roleTypeId": "CXquunM-7rvShbA9"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "zt8Mrbkj598Srmxx",
+                    "roleType": {
+                        "id": "SDm1XNb30XRzgS_p",
+                        "name": "Дизайнер"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "9gSuDjoX6Im3xbaW",
+                            "skillName": "Photoshop",
+                            "roleTypeId": "SDm1XNb30XRzgS_p"
+                        },
+                        {
+                            "skillId": "9i1Z94YBN8PfAF67",
+                            "skillName": "UI/UX дизайн",
+                            "roleTypeId": "SDm1XNb30XRzgS_p"
+                        },
+                        {
+                            "skillId": "zyoc2uhBQ9DCdPWW",
+                            "skillName": "Figma",
+                            "roleTypeId": "SDm1XNb30XRzgS_p"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                },
+                {
+                    "roleId": "PV9q0u9RGskSK6Ol",
+                    "roleType": {
+                        "id": "IMhY364_obyDk0Qe",
+                        "name": "Аналитик"
+                    },
+                    "placesCount": 1,
+                    "minPlacesCount": 0,
+                    "places": [],
+                    "skills": [
+                        {
+                            "skillId": "87wGh35fNEwC06sP",
+                            "skillName": "BPMN",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "5xLRcGFD6buZKp17",
+                            "skillName": "SQL",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "8z-Lr5R5_VAITTVx",
+                            "skillName": "Бизнес-анализ",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        },
+                        {
+                            "skillId": "degkxa9ggCC9lHbL",
+                            "skillName": "UML",
+                            "roleTypeId": "IMhY364_obyDk0Qe"
+                        }
+                    ],
+                    "applicationsCount": 0,
+                    "isAppliedByMe": null,
+                    "relevance": 0.0
+                }
+            ],
+            "primaryTag": {
+                "tagId": "cK9X21B1VGnX3FPU",
+                "tagName": "Мобайл-разработка",
+                "groupId": "z0VEdJyb9VpSllXr"
+            },
+            "tags": [
+                {
+                    "tagId": "hHa_3w42e2AAmeaY",
+                    "tagName": "Веб-разработка",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "wZaavWeAMz2nRoni",
+                    "tagName": "E-commerce",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                },
+                {
+                    "tagId": "a-E39hpcfx-VyWlN",
+                    "tagName": "Дизайн",
+                    "groupId": "z0VEdJyb9VpSllXr"
+                }
+            ],
+            "prdMeta": {
+                "prerequisites": "Школьникам становится всё сложнее поддерживать регулярность самостоятельной подготовки: высокая учебная нагрузка, множество отвлекающих факторов и отсутствие быстрого способа видеть накопленный прогресс приводят к тому, что полезные учебные привычки не закрепляются, а подготовка часто откладывается до последнего.",
+                "projectGoal": "К концу учебного года 70% активных пользователей приложения будут ежедневно выполнять хотя бы одно учебное задание в течение минимум трёх недель подряд, что сформирует устойчивую привычку регулярной подготовки к урокам.",
+                "keyFunctionality": [
+                    "Ежедневные короткие учебные задания с напоминаниями в удобное время",
+                    "Трекинг серии выполненных дней подряд (стрик) с визуализацией прогресса",
+                    "Система наград и значков достижений за регулярность выполнения",
+                    "Совместные привычки с друзьями и рейтинг активности внутри класса"
+                ]
+            },
+            "repository": [
+                {
+                    "platformId": "9ezvDQte9oPfUrIw",
+                    "name": "GitHub",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "taskTracker": [
+                {
+                    "platformId": "oXo5H2oCoqMX3BqD",
+                    "name": "Jira",
+                    "url": "https://ya.ru/search/?text=Claude&lr=67&search_source=yaru_desktop_common&search_domain=yaru"
+                }
+            ],
+            "otherPlatforms": [],
+            "isPromoted": false,
+            "isLikedByMe": null
+        }
+    ],
+    "total": 9,
+    "offset": 0,
+    "limit": 20
+}
